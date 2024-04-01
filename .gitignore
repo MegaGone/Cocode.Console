@@ -2,6 +2,7 @@
 Cocode.Console.Backend/node_modules
 Cocode.Console.Backend/.env
 Cocode.Console.Backend/dist
+Cocode.Console.Backend/payments
 
 # Compiled output
 Cocode.Console.Frontend/dist
