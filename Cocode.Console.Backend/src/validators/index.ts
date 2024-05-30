@@ -5,6 +5,7 @@ export * from './incident';
 export * from './notification';
 export * from './payment';
 export * from './resident';
+export * from './service';
 export * from './spreadsheet';
 export * from './user';
 export * from './visitor';

@@ -57,6 +57,14 @@ export const appRoutes: Route[] = [
                         (m) => m.ReportsModule
                     ),
             },
+            {
+                path: 'servicios',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('app/modules/admin/services/services.module').then(
+                        (m) => m.ServicesModule
+                    ),
+            },
             { path: '', pathMatch: 'full', redirectTo: 'usuarios' },
             { path: '**', pathMatch: 'full', redirectTo: 'usuarios' },
         ],

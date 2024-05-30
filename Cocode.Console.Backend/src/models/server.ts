@@ -2,7 +2,14 @@ import express, { Application } from "express";
 import cors from "cors";
 import Swagger from "swagger-ui-express";
 
-import { Auth, User, Payment, Incident, Notification } from "../routes";
+import {
+  Auth,
+  User,
+  Payment,
+  Incident,
+  Notification,
+  Service,
+} from "../routes";
 
 import { PORT, SQL_MAX_SIZE_IMAGE, SQL_PARAMETER_LIMIT_IMAGE } from "../config";
 import { openApiConfig } from "../documentation";
@@ -13,6 +20,7 @@ import {
   PaymentService,
   IncidentService,
   NotificationService,
+  ServicesService,
 } from "../services";
 import { Path } from "../typings";
 export class Server {
@@ -44,6 +52,9 @@ export class Server {
       this.app.locals.paymentService = await new PaymentService(
         generic.getClient()
       );
+      this.app.locals.servicesService = await new ServicesService(
+        generic.getClient()
+      );
 
       console.log("DB CONNECTED");
     } catch (error) {
@@ -67,6 +78,7 @@ export class Server {
     this.app.use(Path.AUTH, Auth.default);
     this.app.use(Path.USER, User.default);
     this.app.use(Path.PAYMENT, Payment.default);
+    this.app.use(Path.SERVICE, Service.default);
     this.app.use(Path.INCIDENT, Incident.default);
     this.app.use(Path.NOTIFICATION, Notification.default);
     this.app.use(Path.DOCS, Swagger.serve, Swagger.setup(openApiConfig));

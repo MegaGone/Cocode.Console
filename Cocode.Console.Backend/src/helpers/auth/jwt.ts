@@ -52,6 +52,12 @@ export const getMenuByRole = (role: number): MenuItem[] => {
             type: "basic",
             link: "/administrador/historial-pagos",
           },
+          {
+            id: "apps.administrador.services",
+            title: "Servicios",
+            type: "basic",
+            link: "/administrador/servicios",
+          },
         ],
       });
       break;

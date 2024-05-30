@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Información del servicio</h2>
+
+<form name="form" [formGroup]="form" (ngSubmit)="onCreateService()">
+    <mat-form-field>
+        <input
+            matInput
+            formControlName="name"
+            (keydown)="onKeyDown($event)"
+            placeholder="Descripción del servicio"
+        />
+        <mat-error *ngIf="form.get('name').invalid && form.get('name').touched">
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+        <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+        <button
+            type="submit"
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="form.invalid || form.pristine"
+        >
+            Crear servicio
+        </button>
+    </div>
+</form>
