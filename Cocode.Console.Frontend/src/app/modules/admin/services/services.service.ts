@@ -42,6 +42,7 @@ export class ServicesService {
     public updateService(request: {
         id: number;
         name: string;
+        budget: number;
         enabled: boolean;
     }): Observable<number> {
         return this._http

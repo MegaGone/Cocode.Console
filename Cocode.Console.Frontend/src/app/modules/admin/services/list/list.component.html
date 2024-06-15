@@ -8,6 +8,7 @@
         >
             <div class="hidden sm:block"></div>
             <div>Descripción</div>
+            <div>Monto establecido</div>
             <div>Estado</div>
             <div>Opciones</div>
         </div>
@@ -34,6 +35,15 @@
                         {{ service?.Name }}
                     </div>
                     <!-- /NAME -->
+
+                    <!-- BUDGET -->
+                    <div class="truncate">
+                        {{
+                            service?.Price
+                                | currency : "GTQ" : "symbol" : "1.2-2"
+                        }}
+                    </div>
+                    <!-- BUDGET -->
 
                     <!-- STATUS -->
                     <div class="truncate">

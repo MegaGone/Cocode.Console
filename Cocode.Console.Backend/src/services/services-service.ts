@@ -44,6 +44,7 @@ export class ServicesService {
         { id: _id },
         {
           Name: service?.Name,
+          Price: service?.Price,
           IsEnabled: service?.IsEnabled,
         }
       );
@@ -64,13 +65,20 @@ export class ServicesService {
     }
   }
 
-  public async findPaginated(page: number, size: number) {
+  public async findPaginated(page: number, size: number, role: number) {
     try {
       const skip = (page - 1) * size;
       const take = size;
 
+      let where = {};
+      if (role === 3) {
+        where = {
+          IsEnabled: true,
+        };
+      }
+
       const { data, count } = await this._repo.findWithPagination(
-        {},
+        where,
         {
           id: "DESC",
         },

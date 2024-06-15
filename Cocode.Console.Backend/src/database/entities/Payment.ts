@@ -22,4 +22,7 @@ export class PaymentData {
 
   @Column({ nullable: true, length: "max" })
   photo!: string;
+
+  @Column({ nullable: false })
+  serviceId!: number;
 }

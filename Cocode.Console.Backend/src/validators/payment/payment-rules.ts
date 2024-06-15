@@ -17,7 +17,7 @@ export const createPaymentValidationRules = (additionalRules: any = null) => {
       null,
       false
     ),
-    genericIntegerRule(["amount", "month", "userId"], {
+    genericIntegerRule(["amount", "month", "userId", "serviceId"], {
       requiredType: "integer",
       warnings: "This field doesn't exist, is not a integer or is empty.",
     }),

@@ -7,6 +7,7 @@
             matSortDisableClear
         >
             <div class="hidden sm:block"></div>
+            <div>Servicio</div>
             <div>Monto</div>
             <div>Mes</div>
             <div>Fecha de pago</div>
@@ -40,6 +41,10 @@
                         </div>
                     </div>
                     <!-- /PHOTO -->
+
+                    <div class="truncate">
+                        {{ translateService(payment?.serviceId) }}
+                    </div>
 
                     <div class="truncate">
                         {{

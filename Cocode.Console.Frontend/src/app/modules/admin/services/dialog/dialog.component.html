@@ -13,6 +13,20 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+        <input
+            matInput
+            formControlName="budget"
+            (keydown)="onKeyDownAmount($event)"
+            placeholder="Monto del servicio"
+        />
+        <mat-error
+            *ngIf="form.get('budget').invalid && form.get('budget').touched"
+        >
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
     <mat-form-field *ngIf="!newService">
         <mat-select placeholder="Estado" formControlName="enabled">
             <mat-option

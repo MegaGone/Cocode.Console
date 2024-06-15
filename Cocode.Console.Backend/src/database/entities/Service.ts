@@ -8,6 +8,9 @@ export class ServiceData {
   @Column({ nullable: false })
   Name!: string;
 
+  @Column({ nullable: false })
+  Price!: number;
+
   @Column({ default: true, nullable: false })
   IsEnabled!: boolean;
 

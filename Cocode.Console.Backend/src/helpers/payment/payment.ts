@@ -3,11 +3,14 @@ import { PaymentService } from "../../services";
 export const validatePayment = async (
   service: PaymentService,
   userId: string,
-  monthId: string
+  monthId: string,
+  serviceId: number
 ): Promise<boolean> => {
   try {
     const { data } = await service.getRecords(1, 12, userId);
-    const existPayment = await data.findIndex((p) => p.month == monthId);
+    const existPayment = await data.findIndex(
+      (p) => p.month == monthId && p.serviceId == serviceId
+    );
 
     return existPayment != -1 ? false : true;
   } catch (error) {

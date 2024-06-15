@@ -4,6 +4,7 @@ export interface IService {
     Name: string;
     CreatedAt: string;
     IsEnabled: boolean;
+    Price: number;
 }
 
 export interface IFindServiceResponse {

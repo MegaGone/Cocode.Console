@@ -5,14 +5,20 @@ import { NotificationService, PaymentService, UserService } from "../services";
 
 export const savePayment = async (_req: Request, _res: Response) => {
   try {
-    const { userId, email, amount, month, description, photo } = _req.body;
+    const { userId, email, amount, month, description, photo, serviceId } =
+      _req.body;
 
     const paymentService: PaymentService = _req.app.locals.paymentService;
     const notificationService: NotificationService =
       _req.app.locals.notificationService;
     const userService: UserService = _req.app.locals.userService;
 
-    const isValidPayment = await validatePayment(paymentService, userId, month);
+    const isValidPayment = await validatePayment(
+      paymentService,
+      userId,
+      month,
+      serviceId
+    );
 
     if (!isValidPayment) {
       return _res.status(403).json({
@@ -25,6 +31,7 @@ export const savePayment = async (_req: Request, _res: Response) => {
       photo,
       userId,
       amount,
+      serviceId,
       description,
     });
 

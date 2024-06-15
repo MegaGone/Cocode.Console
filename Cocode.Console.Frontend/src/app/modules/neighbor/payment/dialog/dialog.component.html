@@ -19,13 +19,34 @@
         </mat-form-field>
 
         <mat-form-field>
-            <mat-select placeholder="Monto" formControlName="amount">
+            <mat-select
+                placeholder="Servicio"
+                formControlName="serviceId"
+                (selectionChange)="onOptionSelection($event)"
+            >
                 <mat-option
-                    *ngFor="let amount of amounts"
-                    [value]="amount.value"
-                    >{{ amount.description }}</mat-option
+                    *ngFor="let service of services"
+                    [value]="service.id"
+                    >{{ service.Name }}</mat-option
                 >
             </mat-select>
+            <mat-error
+                *ngIf="
+                    form.get('serviceId').invalid &&
+                    form.get('serviceId').touched
+                "
+            >
+                Este campo es requerido.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input
+                matInput
+                readonly
+                placeholder="Monto"
+                formControlName="amount"
+            />
             <mat-error
                 *ngIf="form.get('amount').invalid && form.get('amount').touched"
             >

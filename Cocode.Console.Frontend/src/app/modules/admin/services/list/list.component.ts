@@ -21,7 +21,6 @@ import { ServicesDialogComponent } from '../dialog/dialog.component';
 })
 export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    // private _dialogRef: MatDialogRef<SuggestionComponent, any>;
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
     @ViewChild(MatSort) public sort: MatSort;

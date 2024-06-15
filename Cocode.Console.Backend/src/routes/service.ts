@@ -108,7 +108,7 @@ router.post(
   "/find",
   findServiceValidationRules(),
   validateJWT,
-  validateRole(1),
+  validateRole(1, 3),
   validateFields,
   findServices
 );

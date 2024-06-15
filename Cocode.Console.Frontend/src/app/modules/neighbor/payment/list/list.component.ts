@@ -12,12 +12,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
-import { IPayment } from 'app/interfaces';
+import { IPayment, IService } from 'app/interfaces';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { PaymentService } from '../payment.service';
 import { transformDate } from 'app/utils';
 import { PaymentDialog } from '../dialog/dialog.component';
 import { User } from 'app/core/user/user.types';
+import { ServicesService } from 'app/modules/admin/services/services.service';
 
 @Component({
     selector: 'payment-list',
@@ -47,15 +48,22 @@ export class ListComponent implements OnInit, OnDestroy {
     public userId: number;
     public user: User;
 
+    public services: Array<IService>;
+    public services$: Observable<Array<IService>>;
+
     constructor(
         public dialog: MatDialog,
         private readonly _user: UserService,
         private readonly _payment: PaymentService,
+        private readonly _services: ServicesService,
         private readonly _changeDetectorRef: ChangeDetectorRef
-    ) {}
+    ) {
+        this.services = [];
+    }
 
     ngOnInit(): void {
         this._onGetSession();
+        this._getServices();
         this.onListenDialog();
         this.onChangeNeighbors();
         this.getPayments();
@@ -109,6 +117,17 @@ export class ListComponent implements OnInit, OnDestroy {
             });
     }
 
+    private _getServices(): void {
+        this._services
+            .findServices({ page: 1, pageSize: 100 })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                this.services = res?.services;
+            });
+
+        this.services$ = this._services.services$;
+    }
+
     public onChangeNeighbors() {
         this._payment.userId$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -132,5 +151,9 @@ export class ListComponent implements OnInit, OnDestroy {
             width: '500px',
             data: { payment },
         });
+    }
+
+    public translateService(serviceId: number): string {
+        return this.services.find((s) => s.id === serviceId)?.Name || '';
     }
 }

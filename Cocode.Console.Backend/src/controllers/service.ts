@@ -3,7 +3,7 @@ import { ServicesService } from "../services";
 
 export const createService = async (_req: Request, _res: Response) => {
   try {
-    const { name } = _req.body;
+    const { name, budget } = _req.body;
 
     const service: ServicesService = _req.app.locals.servicesService;
 
@@ -16,6 +16,7 @@ export const createService = async (_req: Request, _res: Response) => {
 
     const id = await service.insert({
       Name: name,
+      Price: budget,
     });
 
     return _res.json({
@@ -32,9 +33,10 @@ export const createService = async (_req: Request, _res: Response) => {
 export const findServices = async (_req: Request, _res: Response) => {
   try {
     const { pageSize = 10, page = 1 } = _req.body;
+    const { role } = _req;
 
     const service: ServicesService = _req.app.locals.servicesService;
-    const request = await service.findPaginated(page, pageSize);
+    const request = await service.findPaginated(page, pageSize, role);
 
     if (!request) {
       return _res.json({
@@ -58,17 +60,18 @@ export const findServices = async (_req: Request, _res: Response) => {
 
 export const updateService = async (_req: Request, _res: Response) => {
   try {
-    const { id, name, enabled } = _req.body;
+    const { id, name, enabled, budget } = _req.body;
 
     const service: ServicesService = _req.app.locals.servicesService;
     const wasUpdated = await service.update(id, {
       Name: name,
+      Price: budget,
       IsEnabled: enabled,
     });
 
     if (!wasUpdated) {
       return _res.json({
-        statusCode: 400,
+        statusCode: 200,
       });
     }
 

@@ -52,6 +52,7 @@ export class ServicesDialogComponent implements OnInit {
             enabled: [],
             createdAt: [''],
             name: ['', [Validators.required]],
+            budget: ['', [Validators.required]],
         });
     }
 
@@ -59,6 +60,7 @@ export class ServicesDialogComponent implements OnInit {
         this.form.patchValue({
             id: service.id,
             name: service.Name,
+            budget: service?.Price,
             enabled: service.IsEnabled,
             createdAt: service.CreatedAt,
         });
@@ -114,6 +116,10 @@ export class ServicesDialogComponent implements OnInit {
 
         if (event.code === 'Space' && value.endsWith(' '))
             event.preventDefault();
+    }
+
+    public onKeyDownAmount(event: KeyboardEvent): void {
+        if (event.code === 'Space') return event.preventDefault();
     }
 
     public onCancel(): void {

@@ -1,12 +1,14 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PaymentService } from '../payment.service';
 import { SnackBarService, transformDate } from 'app/utils';
 import { UserService as SessionService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
-import { IPayment } from 'app/interfaces';
+import { IPayment, IService } from 'app/interfaces';
+import { ServicesService } from 'app/modules/admin/services/services.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
     selector: 'app-dialog',
@@ -30,17 +32,24 @@ export class PaymentDialog implements OnInit {
     public homeAddress: string;
     public amounts: { description: string; value: number }[];
 
+    public services: Array<IService>;
+    public services$: Observable<Array<IService>>;
+
+    public selectedService: IService;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private readonly _fb: FormBuilder,
         private readonly _session: SessionService,
         private readonly _service: PaymentService,
         private readonly _snackbar: SnackBarService,
+        private readonly _services: ServicesService,
         private readonly _changeDetectorRef: ChangeDetectorRef,
         private readonly _dialogRef: MatDialogRef<PaymentDialog>
     ) {
         this.months = [];
         this.amounts = [];
+        this.services = [];
         this._unsubscribeAll = new Subject<any>();
     }
 
@@ -48,6 +57,7 @@ export class PaymentDialog implements OnInit {
         this._onGetSession();
         this.getMoths();
         this.getAmounts();
+        this._getServices();
         this.initForm();
 
         if (this.data?.payment) this.setForm(this.data.payment);
@@ -62,6 +72,7 @@ export class PaymentDialog implements OnInit {
             description: ['', [Validators.required]],
             payedAt: [''],
             email: [this.user?.email],
+            serviceId: ['', [Validators.required]],
         });
     }
 
@@ -89,6 +100,17 @@ export class PaymentDialog implements OnInit {
         if (payment?.photo) {
             this.base64Image = payment?.photo;
         }
+    }
+
+    private _getServices(): void {
+        this._services
+            .findServices({ page: 1, pageSize: 100 })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                this.services = res?.services;
+            });
+
+        this.services$ = this._services.services$;
     }
 
     public registerPayment() {
@@ -185,5 +207,11 @@ export class PaymentDialog implements OnInit {
 
     public onClose(wasSuccess: boolean = false) {
         this._dialogRef.close(wasSuccess);
+    }
+
+    public onOptionSelection($event: MatSelectChange) {
+        const selectedService = this.services.find((s) => s.id == $event.value);
+        if (selectedService)
+            this.form.patchValue({ amount: selectedService.Price });
     }
 }

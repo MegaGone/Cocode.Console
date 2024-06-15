@@ -12,6 +12,10 @@ export const createServiceValidationRules = (additionalRules: any = null) => {
       requiredType: "string",
       warnings: "This field doesn't exist, is not a string or is empty.",
     }),
+    genericIntegerRule("budget", {
+      requiredType: "int",
+      warnings: "This field doesn't exist, is not a integer or is empty.",
+    }),
     ...newRules,
   ];
 };
@@ -35,7 +39,7 @@ export const updateServiceValidationRules = (additionalRules: any = null) => {
   const newRules = additionalRules || [];
 
   return [
-    genericIntegerRule("id", {
+    genericIntegerRule(["id", "budget"], {
       requiredType: "int",
       warnings: "This field doesn't exist, is not a integer or is empty.",
     }),
