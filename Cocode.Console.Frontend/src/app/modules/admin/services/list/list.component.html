@@ -1,1 +1,97 @@
-<p>list works!</p>
+<ng-container *ngIf="count">
+    <div class="grid">
+        <!-- HEADER -->
+        <div
+            class="inventory-grid-report z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort
+            matSortDisableClear
+        >
+            <div class="hidden sm:block"></div>
+            <div>Descripción</div>
+            <div>Estado</div>
+            <div>Opciones</div>
+        </div>
+        <!-- /HEADER -->
+
+        <!-- MAIN -->
+        <ng-container *ngIf="services$ | async as services">
+            <ng-container *ngFor="let service of services; trackBy: trackByFn">
+                <div
+                    class="inventory-grid-report grid items-center gap-4 py-3 px-6 md:px-8 border-b"
+                >
+                    <!-- REPORT EVIDENCE -->
+                    <div class="flex items-center">
+                        <div
+                            class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border"
+                        >
+                            {{ service?.id }}
+                        </div>
+                    </div>
+                    <!-- /REPORT EVIDENCE -->
+
+                    <!-- NAME -->
+                    <div class="truncate">
+                        {{ service?.Name }}
+                    </div>
+                    <!-- /NAME -->
+
+                    <!-- STATUS -->
+                    <div class="truncate">
+                        <mat-icon
+                            style="color: red"
+                            *ngIf="!service?.IsEnabled"
+                            [matTooltip]="'Inhabilitado'"
+                            svgIcon="heroicons_outline:x-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: green"
+                            *ngIf="service?.IsEnabled"
+                            [matTooltip]="'Habilitado'"
+                            svgIcon="heroicons_outline:check-circle"
+                        ></mat-icon>
+                    </div>
+                    <!-- /STATUS -->
+
+                    <!-- OPTIONS -->
+                    <div>
+                        <button
+                            mat-stroked-button
+                            (click)="openDialog(service)"
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:pencil-alt"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                    <!-- /OPTIONS -->
+                </div>
+            </ng-container>
+        </ng-container>
+        <!-- /MAIN -->
+    </div>
+
+    <mat-paginator
+        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+        [ngClass]="{ 'pointer-events-none': loading }"
+        [length]="count"
+        [pageSizeOptions]="pageSizeOptions"
+    >
+    </mat-paginator>
+</ng-container>
+
+<ng-container *ngIf="!count && !loading">
+    <div
+        class="flex flex-col flex-auto items-center justify-center"
+        style="margin-top: 17%"
+    >
+        <mat-icon
+            class="icon-size-24"
+            [svgIcon]="'mat_outline:receipt_long'"
+        ></mat-icon>
+        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">
+            No se han encontrado servicios.
+        </div>
+    </div>
+</ng-container>

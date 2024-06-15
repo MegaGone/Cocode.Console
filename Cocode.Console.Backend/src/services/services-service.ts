@@ -35,6 +35,25 @@ export class ServicesService {
     }
   }
 
+  public async update(
+    _id: number,
+    service: Partial<ServiceData>
+  ): Promise<boolean> {
+    try {
+      await this._repo.update(
+        { id: _id },
+        {
+          Name: service?.Name,
+          IsEnabled: service?.IsEnabled,
+        }
+      );
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   public async find(name: string): Promise<Partial<ServiceData> | undefined> {
     try {
       const record = await this._repo.findOne({ Name: name });

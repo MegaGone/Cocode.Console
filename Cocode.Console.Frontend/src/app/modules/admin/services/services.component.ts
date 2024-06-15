@@ -17,8 +17,10 @@ export class ServicesComponent implements OnInit {
     ngOnInit(): void {}
 
     public openDialog() {
-        this._dialog.open(ServicesDialogComponent, {
+        const dialogRef = this._dialog.open(ServicesDialogComponent, {
             width: '500px',
         });
+
+        dialogRef.afterClosed().subscribe((res) => this._service.dialog());
     }
 }

@@ -4,6 +4,7 @@ export * from './global';
 export * from './payment';
 export * from './report';
 export * from './resident';
+export * from './services';
 export * from './spreadsheet';
 export * from './user';
 export * from './visits';
