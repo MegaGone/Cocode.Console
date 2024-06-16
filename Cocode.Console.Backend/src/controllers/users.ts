@@ -195,3 +195,29 @@ export const setInsolventNeighbors = async (_req: Request, _res: Response) => {
     });
   }
 };
+
+export const updateNeighborStatus = async (_req: Request, _res: Response) => {
+  try {
+    const { userId, status } = _req.body;
+
+    const userService: UserService = _req.app.locals.userService;
+
+    const wasUpdated = await userService.updateRecord(userId, {
+      IsSolvent: status,
+    });
+
+    if (!wasUpdated) {
+      return _res.status(400).json({
+        statusCode: 400,
+      });
+    }
+
+    return _res.status(200).json({
+      statusCode: 200,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};

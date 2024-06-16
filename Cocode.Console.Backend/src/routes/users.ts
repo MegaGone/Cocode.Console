@@ -7,6 +7,7 @@ import {
   getUser,
   getUsers,
   setInsolventNeighbors,
+  updateNeighborStatus,
   updateUser,
 } from "../controllers";
 
@@ -15,6 +16,7 @@ import {
   createUserValidationRules,
   getUsersValidationRules,
   getUserValidationRules,
+  updateStatusValidationRules,
   updateUserValidationRules,
 } from "../validators";
 
@@ -365,6 +367,33 @@ router.post(
   validateRole(1),
   validateFields,
   getUsers
+);
+
+/**
+ * @swagger
+ * /api/user/status:
+ *   put:
+ *     summary: Update neighbor status
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Successfully update
+ *         content:
+ *           application/json:
+ *             example:
+ *                 statusCode: 200
+ *       400:
+ *         description: Was not updated
+ *       500:
+ *         description: Unknown error
+ */
+router.put(
+  "/status",
+  updateStatusValidationRules(),
+  validateJWT,
+  validateRole(1),
+  validateFields,
+  updateNeighborStatus
 );
 
 export default router;

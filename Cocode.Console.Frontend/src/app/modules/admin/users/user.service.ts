@@ -100,6 +100,23 @@ export class UserService {
         );
     }
 
+    public updateNeighborStatus(
+        userId: number,
+        status: boolean
+    ): Observable<number> {
+        return this._http
+            .put(`${this.path}/status`, { userId, status }, this.getHeaders)
+            .pipe(
+                map((res: { statusCode: number }) => {
+                    return res ? res?.statusCode : 500;
+                }),
+                catchError((err) => {
+                    console.log(err);
+                    return of(err?.status);
+                })
+            );
+    }
+
     // INTERNAL
     get getToken() {
         return localStorage.getItem('x-token') || '';

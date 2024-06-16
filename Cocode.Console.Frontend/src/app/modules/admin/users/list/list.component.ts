@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from '../dialog/dialog.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NotificationsService } from 'app/layout/common/notifications/notifications.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'user-list',
@@ -157,6 +158,26 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
                     'Ha ocurrido un error al enviar el recordatorio al vecino.'
                 );
             });
+    }
+
+    public setSolvent(change: MatSlideToggleChange, userId: number): void {
+        const user = this.users.find((u) => u.id === userId);
+
+        if (user) {
+            user.IsSolvent = change.checked;
+
+            this._userService
+                .updateNeighborStatus(userId, change.checked)
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((res: number) => {
+                    let message: string =
+                        res != 200
+                            ? 'Ha ocurrido un error al actualizar el estado del vecino.'
+                            : 'El estado del vecino se ha actualizado correctamente.';
+
+                    this._snackBarService.open(message);
+                });
+        }
     }
 
     translateRole(role: number): string {

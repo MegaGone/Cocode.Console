@@ -54,19 +54,14 @@
 
                     <!-- IS SOLVENT -->
                     <div class="truncate">
-                        <mat-icon
-                            style="color: red"
-                            *ngIf="!user.IsSolvent"
-                            [matTooltip]="'Pendiente'"
-                            svgIcon="heroicons_outline:x-circle"
-                        ></mat-icon>
-
-                        <mat-icon
-                            style="color: green"
-                            *ngIf="user.IsSolvent"
-                            [matTooltip]="'Solvente'"
-                            svgIcon="heroicons_outline:check-circle"
-                        ></mat-icon>
+                        <mat-slide-toggle
+                            [color]="'primary'"
+                            [checked]="user?.IsSolvent"
+                            (change)="setSolvent($event, user?.id)"
+                            class="mt-8 sm:mt-0 sm:ml-auto"
+                        >
+                            {{ !user.IsSolvent ? "Pendiente" : "Solvente" }}
+                        </mat-slide-toggle>
                     </div>
                     <!-- / IS SOLVENT -->
 

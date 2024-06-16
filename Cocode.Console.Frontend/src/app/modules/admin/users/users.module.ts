@@ -45,6 +45,7 @@ import { SnackBarService } from 'app/utils';
         MatTooltipModule,
         MatDialogModule,
         NotificationsModule,
+        MatSlideToggleModule,
     ],
     providers: [SnackBarService],
 })
