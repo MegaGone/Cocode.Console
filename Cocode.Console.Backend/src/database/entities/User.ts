@@ -22,4 +22,7 @@ export class UserData {
 
   @Column({ default: false, nullable: false })
   IsSolvent!: boolean;
+
+  @Column({ nullable: false })
+  Dpi!: string;
 }

@@ -10,7 +10,7 @@ export const createUserValidationRules = (additionalRules: any = null) => {
   const newRules = additionalRules || [];
 
   return [
-    genericStringRule(["firstName", "lastName", "email", "password"], {
+    genericStringRule(["firstName", "lastName", "email", "password", "dpi"], {
       requiredType: "string",
       warnings: "This field doesn't exist, is not a string or is empty.",
     }),
@@ -94,5 +94,29 @@ export const updateStatusValidationRules = (additionalRules: any = null) => {
       warnings: "This field doesn't exist, is not a boolean or is empty.",
     }),
     newRules,
+  ];
+};
+
+export const validateUserValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericStringRule(["email", "dpi"], {
+      requiredType: "string",
+      warnings: "This field doesn't exist, is not a string or is empty.",
+    }),
+    ...newRules,
+  ];
+};
+
+export const restorePasswordValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericStringRule(["email", "dpi", "password"], {
+      requiredType: "string",
+      warnings: "This field doesn't exist, is not a string or is empty.",
+    }),
+    ...newRules,
   ];
 };

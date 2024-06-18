@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource, FindOptionsWhere } from "typeorm";
 
 import { UserData, BaseRepository } from "../database";
 
@@ -117,8 +117,18 @@ export class UserService {
 
       return affected ? true : false;
     } catch (error) {
-      console.log("------------->", error);
       throw error;
+    }
+  }
+
+  public async find(
+    where: FindOptionsWhere<UserData>
+  ): Promise<Partial<UserData> | null> {
+    try {
+      const user = await this.userRepository.findOne(where);
+      return user ? user : null;
+    } catch (error) {
+      return null;
     }
   }
 }

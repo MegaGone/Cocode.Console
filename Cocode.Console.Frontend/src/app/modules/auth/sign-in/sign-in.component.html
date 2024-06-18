@@ -43,7 +43,7 @@
                     <mat-error
                         *ngIf="signInForm.get('email').hasError('email')"
                     >
-                        Por favor ingrese un correo electrónico	válido
+                        Por favor ingrese un correo electrónico válido
                     </mat-error>
                 </mat-form-field>
 
@@ -91,6 +91,11 @@
                     >
                         Recuerdame
                     </mat-checkbox>
+                    <a
+                        (click)="forgotPassword()"
+                        class="text-md font-medium text-primary-500 hover:underline"
+                        >Olvidé mi contraseña
+                    </a>
                 </div>
 
                 <!-- Submit button -->
@@ -177,7 +182,6 @@
                 Gestiona e infórmate acerca de lo que pasa en el condominio
                 através de este plataforma que tenemos para tí.
             </div>
-
         </div>
     </div>
 </div>

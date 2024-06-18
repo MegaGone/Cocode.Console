@@ -6,9 +6,11 @@ import {
   getNeighbors,
   getUser,
   getUsers,
+  restorePassword,
   setInsolventNeighbors,
   updateNeighborStatus,
   updateUser,
+  validateUser,
 } from "../controllers";
 
 import { validateRole, validateFields, validateJWT } from "../middlewares";
@@ -16,8 +18,10 @@ import {
   createUserValidationRules,
   getUsersValidationRules,
   getUserValidationRules,
+  restorePasswordValidationRules,
   updateStatusValidationRules,
   updateUserValidationRules,
+  validateUserValidationRules,
 } from "../validators";
 
 const router = Router();
@@ -394,6 +398,58 @@ router.put(
   validateRole(1),
   validateFields,
   updateNeighborStatus
+);
+
+/**
+ * @swagger
+ * /api/user/validate:
+ *   post:
+ *     summary: Validate neighbor status
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Neighbor exists
+ *         content:
+ *           application/json:
+ *             example:
+ *                 statusCode: 200
+ *       404:
+ *         description: Neighbor not founded
+ *       500:
+ *         description: Unknown error
+ */
+router.post(
+  "/validate",
+  validateUserValidationRules(),
+  validateFields,
+  validateUser
+);
+
+/**
+ * @swagger
+ * /api/user/restore-password:
+ *   post:
+ *     summary: Restore neighbor password
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Restored
+ *         content:
+ *           application/json:
+ *             example:
+ *                 statusCode: 200
+ *       400:
+ *         description: Unknown error
+ *       404:
+ *         description: Neighbor not founded
+ *       500:
+ *         description: Internal server error
+ */
+router.post(
+  "/restore-password",
+  restorePasswordValidationRules(),
+  validateFields,
+  restorePassword
 );
 
 export default router;

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+    OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -11,14 +17,14 @@ import { takeUntil, ReplaySubject } from 'rxjs';
     selector: 'auth-sign-in',
     templateUrl: './sign-in.component.html',
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: fuseAnimations,
 })
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
-        message: ''
+        message: '',
     };
 
     signInForm: FormGroup;
@@ -34,8 +40,7 @@ export class AuthSignInComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _signInService: SignInService
-    ) {
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -49,7 +54,7 @@ export class AuthSignInComponent implements OnInit {
         this.signInForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required],
-            rememberMe: ['']
+            rememberMe: [''],
         });
     }
 
@@ -72,36 +77,40 @@ export class AuthSignInComponent implements OnInit {
         // Hide the alert
         this.showAlert = false;
 
-        this._signInService.loginWithCredentials(this.signInForm.value).pipe(takeUntil(this._unSubscribeAll)).subscribe(
-            (res) => {
+        this._signInService
+            .loginWithCredentials(this.signInForm.value)
+            .pipe(takeUntil(this._unSubscribeAll))
+            .subscribe(
+                (res) => {
+                    if (res.statusCode === 200) {
+                        const mainRoute = res.menu[0].children[0].link;
+                        return this._router.navigate([mainRoute]);
+                    }
+                },
+                (err) => {
+                    console.log(err);
 
-                if (res.statusCode === 200) {
-                    const mainRoute = res.menu[0].children[0].link;
-                    return this._router.navigate([mainRoute]);
+                    this.signInForm.enable();
+
+                    this.signInNgForm.resetForm();
+
+                    // Set the alert
+                    this.alert = {
+                        type: 'error',
+                        message: 'Wrong email or password',
+                    };
+
+                    this.showAlert = true;
                 }
+            );
+    }
 
-            },
-            (err) => {
-                console.log(err);
-                
-                this.signInForm.enable();
-
-                this.signInNgForm.resetForm();
-
-                // Set the alert
-                this.alert = {
-                    type: 'error',
-                    message: 'Wrong email or password'
-                };
-
-                this.showAlert = true;
-
-            }
-        );
+    forgotPassword(): void {
+        this._router.navigate(['/auth/forgot-password']);
     }
 
     OnDestroy() {
         this._unSubscribeAll.next(null);
         this._unSubscribeAll.complete();
     }
-};
+}

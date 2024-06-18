@@ -21,6 +21,13 @@ export const appRoutes: Route[] = [
                         (m) => m.AuthSignInModule
                     ),
             },
+            {
+                path: 'forgot-password',
+                loadChildren: () =>
+                    import(
+                        'app/modules/auth/forgot-password/forgot-password.module'
+                    ).then((m) => m.ForgotPasswordModule),
+            },
             { path: '', pathMatch: 'full', redirectTo: 'sign-in' },
             { path: '**', pathMatch: 'full', redirectTo: 'sign-in' },
         ],

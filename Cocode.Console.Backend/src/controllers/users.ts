@@ -4,17 +4,18 @@ import { UserService } from "../services";
 
 export const createUser = async (_req: Request, _res: Response) => {
   try {
-    const { firstName, lastName, email, password, role } = _req.body;
+    const { firstName, lastName, email, password, role, dpi } = _req.body;
 
     const salt = genSaltSync();
     const hashedPassword = await hashSync(password, salt);
     const userService: UserService = _req.app.locals.userService;
 
     const id = await userService.insertRecord({
-      DisplayName: `${firstName} ${lastName}`,
+      Dpi: dpi,
+      Role: role,
       Email: email,
       Password: hashedPassword,
-      Role: role,
+      DisplayName: `${firstName} ${lastName}`,
     });
 
     return _res.status(200).json({
@@ -207,6 +208,67 @@ export const updateNeighborStatus = async (_req: Request, _res: Response) => {
     });
 
     if (!wasUpdated) {
+      return _res.status(400).json({
+        statusCode: 400,
+      });
+    }
+
+    return _res.status(200).json({
+      statusCode: 200,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};
+
+export const validateUser = async (_req: Request, _res: Response) => {
+  try {
+    const { dpi, email } = _req.body;
+
+    const userService: UserService = _req.app.locals.userService;
+
+    const existUser = await userService.find({ Email: email, Dpi: dpi });
+
+    if (!existUser) {
+      return _res.status(404).json({
+        statusCode: 404,
+        exists: false,
+      });
+    }
+
+    return _res.status(200).json({
+      statusCode: 200,
+      exists: true,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};
+
+export const restorePassword = async (_req: Request, _res: Response) => {
+  try {
+    const { dpi, email, password } = _req.body;
+    const userService: UserService = _req.app.locals.userService;
+
+    const user = await userService.find({ Email: email, Dpi: dpi });
+    if (!user) {
+      return _res.status(404).json({
+        statusCode: 404,
+      });
+    }
+
+    const salt = genSaltSync();
+    const hashedPassword = await hashSync(password, salt);
+
+    const wasRestored = await userService.updateRecord(user.id!, {
+      Password: hashedPassword,
+    });
+
+    if (!wasRestored) {
       return _res.status(400).json({
         statusCode: 400,
       });
