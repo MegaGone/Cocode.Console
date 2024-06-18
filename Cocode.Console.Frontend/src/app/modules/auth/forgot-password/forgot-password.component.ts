@@ -44,12 +44,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     private _initStepOneForm(): void {
         this.stepOneForm = this._formbuilder.group({
-            email: [
-                'juanperez2024@gmail.com',
-                [Validators.required, Validators.email],
-            ],
+            email: ['', [Validators.required, Validators.email]],
             dpi: [
-                '2114424572362',
+                '',
                 [
                     Validators.required,
                     Validators.minLength(13),

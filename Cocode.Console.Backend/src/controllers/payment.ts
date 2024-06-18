@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { getCurrentDate } from "../helpers";
-import { validatePayment, validateSolvent } from "../helpers/payment";
-import { NotificationService, PaymentService, UserService } from "../services";
+import { validatePayment } from "../helpers/payment";
+import {
+  NotificationService,
+  PaymentService,
+  ServicesService,
+} from "../services";
 
 export const savePayment = async (_req: Request, _res: Response) => {
   try {
@@ -11,7 +15,6 @@ export const savePayment = async (_req: Request, _res: Response) => {
     const paymentService: PaymentService = _req.app.locals.paymentService;
     const notificationService: NotificationService =
       _req.app.locals.notificationService;
-    const userService: UserService = _req.app.locals.userService;
 
     const isValidPayment = await validatePayment(
       paymentService,
@@ -35,17 +38,13 @@ export const savePayment = async (_req: Request, _res: Response) => {
       description,
     });
 
-    const { totalItems } = await paymentService.getRecords(1, 12, userId);
-    const isSolvent = validateSolvent(totalItems);
-
-    if (isSolvent) {
-      await userService.updateRecord(userId, {
-        IsSolvent: true,
-      });
-    }
+    const service: ServicesService = _req.app.locals.servicesService;
+    const { data: services } = await service.findPaginated(1, 50, 3);
 
     await notificationService.insertRecord({
-      message: `El pago realizado de ${getCurrentDate()} se ha efectuado correctamente.`,
+      message: `El pago realizado de ${
+        services[serviceId]?.Name
+      } - ${getCurrentDate()} se ha efectuado correctamente.`,
       user: email,
       type: 2,
     });

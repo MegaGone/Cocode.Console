@@ -47,6 +47,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.onValidateRole();
         this._onChangeSelection();
+        this._getServices();
     }
 
     ngOnDestroy(): void {
@@ -68,9 +69,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     public async onGetNeighbor() {
         if (this.user.role !== 1) return;
-
-        this._getServices();
-
         this._user
             .getNeighbors()
             .pipe(takeUntil(this._unsubscribeAll))
