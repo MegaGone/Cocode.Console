@@ -14,6 +14,8 @@ export interface User {
     CreatedAt: Date;
     name?: string;
     IsSolvent: boolean;
+    dpi?: string;
+    Dpi?: string;
 }
 
 export interface Users {

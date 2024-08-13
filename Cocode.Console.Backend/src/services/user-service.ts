@@ -71,7 +71,7 @@ export class UserService {
         },
         take,
         skip,
-        ["Role", "id", "DisplayName", "Email", "IsSolvent"]
+        ["Role", "id", "DisplayName", "Email", "IsSolvent", "Dpi"]
       );
 
       const pagination = {
