@@ -11,7 +11,7 @@ export class IncidentData {
   @Column({ nullable: false })
   description!: string;
 
-  @Column({ nullable: false, length: 30 })
+  @Column({ type: "nvarchar", nullable: false, length: 255 })
   user!: string;
 
   @Column({ nullable: true, length: "max" })

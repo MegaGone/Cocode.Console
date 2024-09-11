@@ -10,7 +10,7 @@ export class NotificationData {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ length: 255 })
+  @Column({ type: "nvarchar", length: 255 })
   user!: string;
 
   @Column({ length: 500 })
