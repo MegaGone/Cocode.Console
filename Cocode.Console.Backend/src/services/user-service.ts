@@ -96,7 +96,7 @@ export class UserService {
         {
           createdAt: "DESC",
         },
-        ["id", "Email"]
+        ["id", "Email", "DisplayName"]
       );
 
       if (!data.length) return null;
