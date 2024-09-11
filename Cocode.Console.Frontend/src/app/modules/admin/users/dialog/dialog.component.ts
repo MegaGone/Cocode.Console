@@ -17,6 +17,7 @@ export class UserDialogComponent implements OnInit {
     public alert: IAlert;
     public roles: { id: number; description: string }[] = [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _phoneRegex: RegExp;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,6 +27,8 @@ export class UserDialogComponent implements OnInit {
         private _snackBarService: SnackBarService
     ) {
         this.roles = roles;
+        this._phoneRegex = new RegExp(/^[256789]\d{7}$/);
+        // this._phoneRegex = new RegExp('^[26789]\\d{7}$');
     }
 
     ngOnInit(): void {
@@ -46,6 +49,11 @@ export class UserDialogComponent implements OnInit {
             role: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required]],
+            direccion: ['', Validators.required],
+            telefono: [
+                '',
+                [Validators.required, Validators.pattern(this._phoneRegex)],
+            ],
             dpi: [
                 '',
                 [
@@ -67,6 +75,8 @@ export class UserDialogComponent implements OnInit {
             email: user.Email,
             password: '',
             dpi: user?.Dpi,
+            telefono: user?.telefono,
+            direccion: user?.direccion,
         });
 
         this.userForm.controls.password.clearValidators();

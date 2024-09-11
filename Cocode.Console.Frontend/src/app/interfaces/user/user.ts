@@ -16,6 +16,8 @@ export interface User {
     IsSolvent: boolean;
     dpi?: string;
     Dpi?: string;
+    telefono: string;
+    direccion: string;
 }
 
 export interface Users {
@@ -31,6 +33,9 @@ export interface INewUser {
     role: number;
     email: string;
     password?: string;
+    dpi: string;
+    telefono: string;
+    direccion: string;
 }
 
 export interface INewUserResponse {

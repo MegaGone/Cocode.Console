@@ -10,10 +10,21 @@ export const createUserValidationRules = (additionalRules: any = null) => {
   const newRules = additionalRules || [];
 
   return [
-    genericStringRule(["firstName", "lastName", "email", "password", "dpi"], {
-      requiredType: "string",
-      warnings: "This field doesn't exist, is not a string or is empty.",
-    }),
+    genericStringRule(
+      [
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "dpi",
+        "telefono",
+        "direccion",
+      ],
+      {
+        requiredType: "string",
+        warnings: "This field doesn't exist, is not a string or is empty.",
+      }
+    ),
     genericIntegerRule("role", {
       requiredType: "int",
       warnings: "This field doesn't exist, is not a int or is empty.",

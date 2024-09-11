@@ -4,7 +4,16 @@ import { UserService } from "../services";
 
 export const createUser = async (_req: Request, _res: Response) => {
   try {
-    const { firstName, lastName, email, password, role, dpi } = _req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      dpi,
+      telefono,
+      direccion,
+    } = _req.body;
 
     const salt = genSaltSync();
     const hashedPassword = await hashSync(password, salt);
@@ -16,6 +25,8 @@ export const createUser = async (_req: Request, _res: Response) => {
       Email: email,
       Password: hashedPassword,
       DisplayName: `${firstName} ${lastName}`,
+      Telefono: telefono,
+      Direccion: direccion,
     });
 
     return _res.status(200).json({

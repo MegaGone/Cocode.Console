@@ -25,4 +25,10 @@ export class UserData {
 
   @Column({ nullable: false })
   Dpi!: string;
+
+  @Column({ nullable: false, type: "varchar", length: 8 })
+  Telefono!: string;
+
+  @Column({ nullable: false, type: "varchar", length: "300" })
+  Direccion!: string;
 }

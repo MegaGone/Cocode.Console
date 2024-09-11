@@ -109,6 +109,37 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-form-field>
+            <input matInput placeholder="Telefono" formControlName="telefono" />
+            <mat-error
+                *ngIf="
+                    userForm.get('telefono').invalid &&
+                    userForm.get('telefono').touched
+                "
+            >
+                Este campo es requerido.
+            </mat-error>
+            <mat-error *ngIf="userForm.get('telefono')?.hasError('pattern')">
+                Número de teléfono no válido.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input
+                matInput
+                placeholder="Direccion"
+                formControlName="direccion"
+            />
+            <mat-error
+                *ngIf="
+                    userForm.get('direccion').invalid &&
+                    userForm.get('direccion').touched
+                "
+            >
+                Este campo es requerido.
+            </mat-error>
+        </mat-form-field>
+
         <div mat-dialog-actions>
             <button mat-button type="button" (click)="onCancel()">
                 Cancelar
