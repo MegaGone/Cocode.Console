@@ -31,6 +31,8 @@ export class AuthSignInComponent implements OnInit {
     showAlert: boolean = false;
 
     private _unSubscribeAll = new ReplaySubject();
+    private _dpiRegex: RegExp;
+
     /**
      * Constructor
      */
@@ -40,7 +42,9 @@ export class AuthSignInComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _signInService: SignInService
-    ) {}
+    ) {
+        this._dpiRegex = new RegExp(/^[0-9]{13}$/);
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -53,7 +57,10 @@ export class AuthSignInComponent implements OnInit {
         // Create the form
         this.signInForm = this._formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
+            dpi: [
+                '',
+                [Validators.required, Validators.pattern(this._dpiRegex)],
+            ],
             rememberMe: [''],
         });
     }

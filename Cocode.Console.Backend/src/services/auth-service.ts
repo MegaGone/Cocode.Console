@@ -1,32 +1,41 @@
-import { DataSource } from 'typeorm';
-import { UserData, BaseRepository } from '../database';
+import { DataSource } from "typeorm";
+import { UserData, BaseRepository } from "../database";
 
 export class AuthService {
-    private readonly authRepository;
+  private readonly authRepository;
 
-    constructor(datasource: DataSource) {
-        this.authRepository = new BaseRepository.default(datasource, UserData);
-    };
+  constructor(datasource: DataSource) {
+    this.authRepository = new BaseRepository.default(datasource, UserData);
+  }
 
-    async getRecord(email: string): Promise<UserData | null> {
-        try {
-            const user: UserData | null = await this.authRepository.findOne({ Email: email }, false);
-            if (!user) return null;
+  async getRecord(email: string, dpi: string): Promise<UserData | null> {
+    try {
+      const user: UserData | null = await this.authRepository.findOne(
+        { Email: email, Dpi: dpi },
+        false
+      );
 
-            return user;
-        } catch (error) {
-            return null;
-        }
-    };
+      if (!user) return null;
 
-    async getSession(id: number): Promise<UserData | null> {
-        try {
-            const user = await this.authRepository.findOne({ id }, false, ["Role", "id", "DisplayName", "Email"]);
-            if (!user) return null;
+      return user;
+    } catch (error) {
+      return null;
+    }
+  }
 
-            return user;
-        } catch (error) {
-            return null;
-        }
-    };
-};
+  async getSession(id: number): Promise<UserData | null> {
+    try {
+      const user = await this.authRepository.findOne({ id }, false, [
+        "Role",
+        "id",
+        "DisplayName",
+        "Email",
+      ]);
+      if (!user) return null;
+
+      return user;
+    } catch (error) {
+      return null;
+    }
+  }
+}

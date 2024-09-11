@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import { getSession, login } from '../controllers';
+import { getSession, login } from "../controllers";
 
-import { validateFields, validateJWT } from '../middlewares';
+import { validateFields, validateJWT } from "../middlewares";
 import { loginValidatonRules } from "../validators/auth";
 
 const router = Router();
@@ -21,19 +21,19 @@ const router = Router();
  *              type: object
  *              required:
  *                - email
- *                - password
+ *                - dpi
  *              properties:
  *               email:
  *                   type: string
  *                   description: User email
  *                   example: john.smith@example.com
- *               password:
+ *               dpi:
  *                   type: string
- *                   description: User password
- *                   example: 87G!8g3xrF3Hif@H!5&Xx$QkbT8
+ *                   description: User dpi
+ *                   example: 21144245714542
  *     responses:
  *       200:
- *         description:  
+ *         description:
  *         content:
  *           application/json:
  *             example:
@@ -52,18 +52,8 @@ const router = Router();
  *                  type: object
  *                  example: {"errors":[{"field":"email","message":{"requiredType":"string","warnings":"The field does not exist, is not a string or must be greater than 0."}}]}
  */
-router.post(
-    '/login',
-    loginValidatonRules(),
-    validateFields,
-    login
-);
+router.post("/login", loginValidatonRules(), validateFields, login);
 
-router.get(
-    '/session',
-    validateJWT,
-    validateFields,
-    getSession
-)
+router.get("/session", validateJWT, validateFields, getSession);
 
 export default router;
