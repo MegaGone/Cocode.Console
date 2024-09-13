@@ -78,7 +78,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
             });
 
         this.neighbors$ = this._user.neighbors$;
-        console.log(this.neighbors$);
     }
 
     public onExportData() {

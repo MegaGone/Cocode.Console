@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Subir acta</h2>
+
+<form name="form" [formGroup]="form" (ngSubmit)="uploadMinute()">
+    <mat-form-field>
+        <input
+            matInput
+            placeholder="Description del acta"
+            formControlName="description"
+        />
+        <mat-error
+            *ngIf="
+                form.get('description').invalid &&
+                form.get('description').touched
+            "
+        >
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <div class="mt-4">
+        <input
+            type="file"
+            name="image"
+            (change)="onFileSelected($event)"
+            accept=".pdf"
+        />
+        <mat-error *ngIf="invalidExtention"
+            >La imágen debe ser en extensión .jpg, .png o .jpeg</mat-error
+        >
+        <mat-error *ngIf="invalidSize"
+            >La imágen debe pesar menos o igual a 7mb</mat-error
+        >
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button type="button" (click)="onClose()">Cancelar</button>
+        <button
+            mat-flat-button
+            [color]="'primary'"
+            type="submit"
+            [disabled]="form.invalid || form.pristine || !selectedFile"
+        >
+            Crear
+        </button>
+    </div>
+</form>

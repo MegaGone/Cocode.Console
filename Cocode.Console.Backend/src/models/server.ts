@@ -9,6 +9,7 @@ import {
   Incident,
   Notification,
   Service,
+  MinuteRouter,
 } from "../routes";
 
 import { PORT, SQL_MAX_SIZE_IMAGE, SQL_PARAMETER_LIMIT_IMAGE } from "../config";
@@ -21,6 +22,7 @@ import {
   IncidentService,
   NotificationService,
   ServicesService,
+  MinuteService,
 } from "../services";
 import { Path } from "../typings";
 export class Server {
@@ -55,6 +57,9 @@ export class Server {
       this.app.locals.servicesService = await new ServicesService(
         generic.getClient()
       );
+      this.app.locals.minuteService = await new MinuteService(
+        generic.getClient()
+      );
 
       console.log("DB CONNECTED");
     } catch (error) {
@@ -80,6 +85,8 @@ export class Server {
     this.app.use(Path.PAYMENT, Payment.default);
     this.app.use(Path.SERVICE, Service.default);
     this.app.use(Path.INCIDENT, Incident.default);
+    this.app.use(Path.MINUTE, MinuteRouter.router);
+    this.app.use(Path.UPLOAD, express.static("payments"));
     this.app.use(Path.NOTIFICATION, Notification.default);
     this.app.use(Path.DOCS, Swagger.serve, Swagger.setup(openApiConfig));
   }

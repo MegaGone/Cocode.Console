@@ -58,6 +58,12 @@ export const getMenuByRole = (role: number): MenuItem[] => {
             type: "basic",
             link: "/administrador/servicios",
           },
+          {
+            id: "apps.administrador.minutes",
+            title: "Actas",
+            type: "basic",
+            link: "/administrador/actas",
+          },
         ],
       });
       break;
@@ -74,6 +80,12 @@ export const getMenuByRole = (role: number): MenuItem[] => {
             title: "Pagos",
             type: "basic",
             link: "/residente/pagos",
+          },
+          {
+            id: "apps.residente.minutes",
+            title: "Actas",
+            type: "basic",
+            link: "/residente/actas",
           },
         ],
       });

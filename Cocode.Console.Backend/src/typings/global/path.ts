@@ -10,4 +10,6 @@ export enum Path {
   PAYMENT = "/api/payment",
   VISITOR = "/api/visitor",
   SERVICE = "/api/service",
+  MINUTE = "/api/minute",
+  UPLOAD = "/uploads",
 }

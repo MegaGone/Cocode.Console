@@ -1,0 +1,122 @@
+<ng-container *ngIf="count">
+    <div class="grid">
+        <!-- HEADER -->
+        <div
+            class="inventory-grid-minute z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort
+            matSortDisableClear
+        >
+            <div></div>
+            <div>Autor</div>
+            <div>Titulo</div>
+            <div>Fecha de subida</div>
+            <div *ngIf="user?.role === 1">Estado</div>
+            <div>Opciones</div>
+        </div>
+        <!-- -HEADER -->
+
+        <!-- MAIN -->
+        <ng-container *ngIf="minutes$ | async as minutes">
+            <ng-container *ngFor="let minute of minutes; trackBy: trackByFn">
+                <div
+                    class="inventory-grid-minute grid items-center gap-4 py-3 px-6 md:px-8 border-b"
+                >
+                    <!-- PHOTO -->
+                    <div class="flex items-center">
+                        <div
+                            class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border"
+                        >
+                            <div
+                                class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
+                            >
+                                NO THUMB
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /PHOTO -->
+
+                    <div class="truncate">
+                        {{ minute?.Author }}
+                    </div>
+
+                    <div class="truncate">
+                        {{ minute?.Description }}
+                    </div>
+
+                    <div class="truncate">
+                        {{ convertDate(minute?.CreatedAt) }}
+                    </div>
+
+                    <div class="truncate" *ngIf="user?.role === 1">
+                        <mat-icon
+                            style="color: red"
+                            *ngIf="minute?.DeletedAt"
+                            [matTooltip]="'Inhabilitado'"
+                            svgIcon="heroicons_outline:x-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: green"
+                            *ngIf="!minute?.DeletedAt"
+                            [matTooltip]="'Habilitado'"
+                            svgIcon="heroicons_outline:check-circle"
+                        ></mat-icon>
+                    </div>
+
+                    <!-- OPTIONS -->
+                    <div>
+                        <button
+                            mat-stroked-button
+                            [matTooltip]="'Descargar acta'"
+                            (click)="downloadMinute(minute?.Filename)"
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:folder-download"
+                            ></mat-icon>
+                        </button>
+                        <button
+                            mat-stroked-button
+                            [matTooltip]="'Deshabilitar acta'"
+                            (click)="disableMinute(minute.Id)"
+                            *ngIf="
+                                !minute?.DeletedAt ||
+                                (user?.role === 1 && !minute?.DeletedAt)
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:folder-remove"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                    <!-- /OPTIONS -->
+                </div>
+            </ng-container>
+        </ng-container>
+        <!-- /MAIN -->
+    </div>
+
+    <mat-paginator
+        [length]="count"
+        [pageSizeOptions]="pageSizeOptions"
+        [ngClass]="{ 'pointer-events-none': loading }"
+        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+    >
+    </mat-paginator>
+</ng-container>
+
+<ng-container *ngIf="!count && !loading">
+    <div
+        class="flex flex-col flex-auto items-center justify-center"
+        style="margin-top: 17%"
+    >
+        <mat-icon
+            class="icon-size-24"
+            [svgIcon]="'heroicons_outline:document'"
+        ></mat-icon>
+        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">
+            No se han encontrado actas.
+        </div>
+    </div>
+</ng-container>

@@ -1,6 +1,7 @@
 export * from './auth';
 export * from './donation';
 export * from './global';
+export * from './minute';
 export * from './payment';
 export * from './report';
 export * from './resident';

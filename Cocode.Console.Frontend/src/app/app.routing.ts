@@ -72,6 +72,14 @@ export const appRoutes: Route[] = [
                         (m) => m.ServicesModule
                     ),
             },
+            {
+                path: 'actas',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('app/modules/shared/minute/minute.module').then(
+                        (m) => m.MinuteModule
+                    ),
+            },
             { path: '', pathMatch: 'full', redirectTo: 'usuarios' },
             { path: '**', pathMatch: 'full', redirectTo: 'usuarios' },
         ],
@@ -90,6 +98,14 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/neighbor/payment/payment.module').then(
                         (m) => m.PaymentModule
+                    ),
+            },
+            {
+                path: 'actas',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('app/modules/shared/minute/minute.module').then(
+                        (m) => m.MinuteModule
                     ),
             },
             { path: '', pathMatch: 'full', redirectTo: 'pagos' },
