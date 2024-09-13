@@ -111,7 +111,6 @@ export class UserService {
                     return res ? res?.statusCode : 500;
                 }),
                 catchError((err) => {
-                    console.log(err);
                     return of(err?.status);
                 })
             );

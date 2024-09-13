@@ -34,7 +34,12 @@
                 <!-- Email field -->
                 <mat-form-field class="w-full">
                     <mat-label>Correo electrónico</mat-label>
-                    <input id="email" matInput [formControlName]="'email'" />
+                    <input
+                        id="email"
+                        matInput
+                        autocomplete="off"
+                        [formControlName]="'email'"
+                    />
                     <mat-error
                         *ngIf="signInForm.get('email').hasError('required')"
                     >
@@ -50,7 +55,12 @@
                 <!-- DPI -->
                 <mat-form-field class="w-full">
                     <mat-label>DPI</mat-label>
-                    <input id="dpi" matInput [formControlName]="'dpi'" />
+                    <input
+                        id="dpi"
+                        matInput
+                        autocomplete="off"
+                        [formControlName]="'dpi'"
+                    />
                     <mat-error
                         *ngIf="signInForm.get('dpi').hasError('required')"
                     >
