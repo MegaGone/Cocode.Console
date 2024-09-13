@@ -98,6 +98,7 @@ export class ListComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user) => {
                 this.user = user;
+                console.log(user);
             });
     }
 
