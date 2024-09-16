@@ -40,6 +40,22 @@ export class MinuteService {
     }
   }
 
+  public async findMinuteName(id: number): Promise<string> {
+    try {
+      const record = await this._minuteRepository.findOne(
+        {
+          Id: id,
+        },
+        false,
+        ["Filename"]
+      );
+
+      return record?.Filename ?? "";
+    } catch (error) {
+      return "";
+    }
+  }
+
   public async findPaginated(page: number, size: number, role: number = 3) {
     try {
       const skip = (page - 1) * size;

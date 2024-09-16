@@ -86,9 +86,16 @@ export class MinuteDialog implements OnInit {
                 return;
             }
 
+            const sanitizedFileName = file.name
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/ñ/g, 'n')
+                .replace(/\s+/g, '_')
+                .replace(/[^\w.-]/g, '');
+
             this.selectedFile = {
                 fileRaw: file,
-                filename: file?.name,
+                filename: sanitizedFileName,
             };
         }
     }

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { MinuteService } from "../services";
+import { deleteFile } from "../helpers";
 
 export const createMinute = async (_req: Request, _res: Response) => {
   try {
@@ -32,6 +33,12 @@ export const disableMinute = async (_req: Request, _res: Response) => {
 
     const minuteService: MinuteService = _req.app.locals.minuteService;
     const wasDeleted = await minuteService.delete(+id);
+
+    if (wasDeleted) {
+      const filename = await minuteService.findMinuteName(+id);
+
+      if (filename) deleteFile(filename);
+    }
 
     return _res.status(200).json({
       wasDeleted,
