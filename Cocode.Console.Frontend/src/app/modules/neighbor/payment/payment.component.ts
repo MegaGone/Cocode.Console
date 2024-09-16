@@ -22,6 +22,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     public neighbors: any[];
 
     public searchInputControl: FormControl;
+    public optionSelected: any;
 
     private _unsubscribeAll: Subject<null>;
     public user: User;
@@ -75,6 +76,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 this.neighbors = data;
                 this.searchInputControl.setValue(data[0]?.id);
+                this.optionSelected = data[0];
             });
 
         this.neighbors$ = this._user.neighbors$;
@@ -99,18 +101,51 @@ export class PaymentComponent implements OnInit, OnDestroy {
             }
         );
 
-        const fileName: string = `${this.user?.name?.replace(
+        const fileName: string = `${this.optionSelected?.DisplayName?.replace(
             ' ',
-            ''
-        )}${this._getHexadecimalDate()}.xlsx`;
+            '_'
+        )}_${this._getHexadecimalDate()}.xlsx`;
 
-        const ws = XLSX.utils.json_to_sheet(payments);
+        const ws = XLSX.utils.aoa_to_sheet([]);
+
+        XLSX.utils.sheet_add_aoa(
+            ws,
+            [['Usuario: ' + this.optionSelected.DisplayName]],
+            { origin: 'A1' }
+        );
+        XLSX.utils.sheet_add_aoa(
+            ws,
+            [
+                [
+                    'Documento Personal de Identificación : ' +
+                        this.optionSelected.Dpi,
+                ],
+            ],
+            {
+                origin: 'A2',
+            }
+        );
+        XLSX.utils.sheet_add_aoa(
+            ws,
+            [['Dirección: ' + this.optionSelected.Direccion]],
+            { origin: 'A3' }
+        );
+        XLSX.utils.sheet_add_aoa(
+            ws,
+            [['Telefono: ' + this.optionSelected.Telefono]],
+            { origin: 'A4' }
+        );
+
+        XLSX.utils.sheet_add_aoa(ws, [[]], { origin: -1 });
+        XLSX.utils.sheet_add_json(ws, payments, { origin: -1 });
+
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Placeholder');
         XLSX.writeFile(wb, fileName);
     }
 
     public onOptionSelection($event: MatSelectChange) {
+        this.optionSelected = this.neighbors.find((n) => n.id == $event.value);
         this._payments.userId.next($event.value);
     }
 

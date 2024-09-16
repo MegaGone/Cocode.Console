@@ -16,8 +16,8 @@ export interface User {
     IsSolvent: boolean;
     dpi?: string;
     Dpi?: string;
-    telefono: string;
-    direccion: string;
+    telefono?: string;
+    direccion?: string;
 }
 
 export interface Users {
