@@ -68,6 +68,7 @@
                         <button
                             mat-stroked-button
                             [matTooltip]="'Descargar acta'"
+                            [disabled]="minute?.DeletedAt !== null"
                             (click)="downloadMinute(minute?.Filename)"
                             class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
                         >
