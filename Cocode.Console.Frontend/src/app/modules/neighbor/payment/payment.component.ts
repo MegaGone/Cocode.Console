@@ -101,6 +101,11 @@ export class PaymentComponent implements OnInit, OnDestroy {
             }
         );
 
+        const total = payments?.reduce(
+            (acc, payment) => acc + (payment.monto || 0),
+            0
+        );
+
         const fileName: string = `${this.optionSelected?.DisplayName?.replace(
             ' ',
             '_'
@@ -135,6 +140,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
             [['Telefono: ' + this.optionSelected.Telefono]],
             { origin: 'A4' }
         );
+        XLSX.utils.sheet_add_aoa(ws, [['Subotal: Q' + total]], {
+            origin: 'A5',
+        });
 
         XLSX.utils.sheet_add_aoa(ws, [[]], { origin: -1 });
         XLSX.utils.sheet_add_json(ws, payments, { origin: -1 });
