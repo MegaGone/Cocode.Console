@@ -72,14 +72,11 @@
         </button>
         <!-- Components -->
         <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
-            <settings *ngIf="user?.role === 3"></settings>
-            <!-- <button mat-icon-button>
+            <button mat-icon-button (click)="onAddSuggestion()">
                 <span class="relative">
-                    <mat-icon
-                        [svgIcon]="'heroicons_outline:user-circle'"
-                    ></mat-icon>
+                    <mat-icon [svgIcon]="'mat_solid:support_agent'"></mat-icon>
                 </span>
-            </button> -->
+            </button>
             <button mat-icon-button (click)="signOut()">
                 <span class="relative">
                     <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>

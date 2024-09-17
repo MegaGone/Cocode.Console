@@ -96,8 +96,18 @@ export class SuggestionComponent implements OnInit {
                 c.markAsTouched()
             );
 
+        const { description, incidentName, incidentEvidence } =
+            this.form.getRawValue();
+
+        const report: IReport = {
+            user: this.user.email,
+            description: description,
+            incidentName: incidentName,
+            incidentEvidence: incidentEvidence,
+        };
+
         this._service
-            .createReport({ user: this.user?.email, ...this.form.value })
+            .createReport(report)
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((res) => {
                 this.onClose();

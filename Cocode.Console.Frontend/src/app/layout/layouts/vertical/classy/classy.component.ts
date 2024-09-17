@@ -2,23 +2,30 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { FuseNavigationService, FuseVerticalNavigationComponent } from '@fuse/components/navigation';
+import {
+    FuseNavigationService,
+    FuseVerticalNavigationComponent,
+} from '@fuse/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import { AuthService } from 'app/core/auth/auth.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SuggestionService } from 'app/modules/neighbor/suggestion/suggestion.service';
+import { SuggestionComponent } from 'app/modules/neighbor/suggestion/suggestion.component';
 
 @Component({
     selector: 'classy-layout',
     templateUrl: './classy.component.html',
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: Navigation;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    private _dialogRef: MatDialogRef<SuggestionComponent, any>;
 
     /**
      * Constructor
@@ -30,9 +37,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
-        private _authService: AuthService
-    ) {
-    }
+        private _authService: AuthService,
+        private readonly _dialog: MatDialog,
+        private readonly _service: SuggestionService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -53,6 +61,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this._onListenDialog();
+
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -62,7 +72,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
 
         // Subscribe to the user service
         this._userService.user$
-            .pipe((takeUntil(this._unsubscribeAll)))
+            .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
                 this.user = user;
             });
@@ -71,7 +81,6 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({ matchingAliases }) => {
-
                 // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
@@ -97,7 +106,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
      */
     toggleNavigation(name: string): void {
         // Get the navigation
-        const navigation = this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(name);
+        const navigation =
+            this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
+                name
+            );
 
         if (navigation) {
             // Toggle the opened status
@@ -106,11 +118,25 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     }
 
     /**
-* Sign out
-*/
+     * Sign out
+     */
     async signOut() {
         await this._authService.signOut();
         // this._router.navigate(['sign-in']);
         this._router.navigate(['auth']);
+    }
+
+    public onAddSuggestion() {
+        this._dialogRef = this._dialog.open(SuggestionComponent, {
+            width: '500px',
+        });
+    }
+
+    private _onListenDialog() {
+        this._service.onGetDialog
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                this._dialogRef.close();
+            });
     }
 }
