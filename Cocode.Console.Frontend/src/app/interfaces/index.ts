@@ -9,3 +9,4 @@ export * from './services';
 export * from './spreadsheet';
 export * from './user';
 export * from './visits';
+export * from './wage';

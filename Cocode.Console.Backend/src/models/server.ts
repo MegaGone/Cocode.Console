@@ -10,6 +10,7 @@ import {
   Notification,
   Service,
   MinuteRouter,
+  WageRouter,
 } from "../routes";
 
 import { PORT, SQL_MAX_SIZE_IMAGE, SQL_PARAMETER_LIMIT_IMAGE } from "../config";
@@ -23,6 +24,7 @@ import {
   NotificationService,
   ServicesService,
   MinuteService,
+  WageService,
 } from "../services";
 import { Path } from "../typings";
 export class Server {
@@ -60,6 +62,7 @@ export class Server {
       this.app.locals.minuteService = await new MinuteService(
         generic.getClient()
       );
+      this.app.locals.wageService = await new WageService(generic.getClient());
 
       console.log("DB CONNECTED");
     } catch (error) {
@@ -82,6 +85,7 @@ export class Server {
   private routes() {
     this.app.use(Path.AUTH, Auth.default);
     this.app.use(Path.USER, User.default);
+    this.app.use(Path.WAGE, WageRouter.router);
     this.app.use(Path.PAYMENT, Payment.default);
     this.app.use(Path.SERVICE, Service.default);
     this.app.use(Path.INCIDENT, Incident.default);

@@ -64,6 +64,12 @@ export const getMenuByRole = (role: number): MenuItem[] => {
             type: "basic",
             link: "/administrador/actas",
           },
+          {
+            id: "apps.administrador.wages",
+            title: "Jornales",
+            type: "basic",
+            link: "/administrador/jornales",
+          },
         ],
       });
       break;

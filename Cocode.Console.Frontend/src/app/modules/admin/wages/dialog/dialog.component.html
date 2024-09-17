@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Registrar jornal</h2>
+
+<form name="form" [formGroup]="form" (ngSubmit)="registerWage()">
+    <mat-form-field>
+        <mat-select placeholder="Vecino" formControlName="user">
+            <mat-option
+                [value]="neighbor.Email"
+                *ngFor="let neighbor of neighbors"
+                >{{ neighbor.DisplayName }}</mat-option
+            >
+        </mat-select>
+        <mat-error *ngIf="form.get('user').invalid && form.get('user').touched">
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input
+            matInput
+            placeholder="Description"
+            formControlName="description"
+        />
+        <mat-error
+            *ngIf="
+                form.get('description').invalid &&
+                form.get('description').touched
+            "
+        >
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Servicio" formControlName="service">
+            <mat-option
+                [value]="service.Name"
+                *ngFor="let service of services"
+                >{{ service.Name }}</mat-option
+            >
+        </mat-select>
+        <mat-error
+            *ngIf="form.get('service').invalid && form.get('service').touched"
+        >
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Monto" formControlName="amount" />
+        <mat-error
+            *ngIf="form.get('amount').invalid && form.get('amount').touched"
+        >
+            Este campo es requerido.
+        </mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+        <button mat-button type="button" (click)="onClose()">Cancelar</button>
+        <button
+            type="submit"
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="form.invalid || form.pristine"
+        >
+            Crear
+        </button>
+    </div>
+</form>

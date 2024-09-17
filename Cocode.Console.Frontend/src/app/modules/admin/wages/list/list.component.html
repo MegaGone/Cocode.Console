@@ -1,0 +1,128 @@
+<ng-container *ngIf="count">
+    <div class="grid">
+        <!-- HEADER -->
+        <div
+            class="inventory-grid-wage z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+            matSort
+            matSortDisableClear
+        >
+            <div>Vecino</div>
+            <div>Servicio</div>
+            <div>Descripción</div>
+            <div>Monto</div>
+            <div>Fecha</div>
+            <div>Estado</div>
+            <div>Opciones</div>
+        </div>
+        <!-- -HEADER -->
+
+        <!-- MAIN -->
+        <ng-container *ngIf="wages$ | async as wages">
+            <ng-container *ngFor="let wage of wages; trackBy: trackByFn">
+                <div
+                    class="inventory-grid-wage wage-row grid items-center gap-4 py-3 px-6 md:px-8 border-b"
+                >
+                    <div class="truncate">
+                        {{ wage?.User }}
+                    </div>
+
+                    <div class="truncate">
+                        {{ wage?.Service }}
+                    </div>
+
+                    <div class="truncate">
+                        {{ wage?.Description }}
+                    </div>
+
+                    <div class="truncate">
+                        {{
+                            wage?.Amount | currency : "GTQ" : "symbol" : "1.2-2"
+                        }}
+                    </div>
+
+                    <div class="truncate">
+                        {{ convertDate(wage?.CreatedAt) }}
+                    </div>
+
+                    <div class="truncate">
+                        <mat-icon
+                            style="color: red"
+                            *ngIf="wage?.Status === 3"
+                            [matTooltip]="'Cancelado'"
+                            svgIcon="heroicons_outline:x-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: green"
+                            *ngIf="wage?.Status === 2"
+                            [matTooltip]="'Pagado'"
+                            svgIcon="heroicons_outline:check-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: rgb(3, 159, 187)"
+                            *ngIf="wage?.Status === 1"
+                            [matTooltip]="'Pendiente'"
+                            svgIcon="heroicons_outline:information-circle"
+                        ></mat-icon>
+                    </div>
+
+                    <!-- OPTIONS -->
+                    <div>
+                        <button
+                            mat-stroked-button
+                            [matTooltip]="'Marcar como pagado'"
+                            (click)="payWage(wage?.Id)"
+                            [disabled]="
+                                wage?.Status === 2 || wage?.DeletedAt !== null
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:receipt-tax"
+                            ></mat-icon>
+                        </button>
+                        <button
+                            mat-stroked-button
+                            [matTooltip]="'Eliminar'"
+                            (click)="removeWage(wage?.Id)"
+                            [disabled]="
+                                wage?.DeletedAt !== null || wage?.Status === 2
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:document-remove"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                    <!-- /OPTIONS -->
+                </div>
+            </ng-container>
+        </ng-container>
+        <!-- -MAIN -->
+    </div>
+
+    <mat-paginator
+        [length]="count"
+        [pageSizeOptions]="pageSizeOptions"
+        [ngClass]="{ 'pointer-events-none': loading }"
+        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+    >
+    </mat-paginator>
+</ng-container>
+
+<ng-container *ngIf="!count && !loading">
+    <div
+        class="flex flex-col flex-auto items-center justify-center"
+        style="margin-top: 17%"
+    >
+        <mat-icon
+            class="icon-size-24"
+            [svgIcon]="'heroicons_outline:document'"
+        ></mat-icon>
+        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">
+            No se han encontrado jornales.
+        </div>
+    </div>
+</ng-container>

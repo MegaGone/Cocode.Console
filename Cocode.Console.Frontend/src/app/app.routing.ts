@@ -80,6 +80,14 @@ export const appRoutes: Route[] = [
                         (m) => m.MinuteModule
                     ),
             },
+            {
+                path: 'jornales',
+                canActivate: [AuthGuard],
+                loadChildren: () =>
+                    import('app/modules/admin/wages/wage.module').then(
+                        (m) => m.WageModule
+                    ),
+            },
             { path: '', pathMatch: 'full', redirectTo: 'usuarios' },
             { path: '**', pathMatch: 'full', redirectTo: 'usuarios' },
         ],

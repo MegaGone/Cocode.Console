@@ -12,4 +12,5 @@ export enum Path {
   SERVICE = "/api/service",
   MINUTE = "/api/minute",
   UPLOAD = "/uploads",
+  WAGE = "/api/wage",
 }

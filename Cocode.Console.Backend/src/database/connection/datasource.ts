@@ -18,6 +18,7 @@ import {
   NotificationData,
   ServiceData,
   MinuteData,
+  WageData,
 } from "../entities";
 
 class GenericDataSource {
@@ -41,6 +42,7 @@ class GenericDataSource {
         NotificationData,
         ServiceData,
         MinuteData,
+        WageData,
       ],
       options: {
         useUTC: true,
