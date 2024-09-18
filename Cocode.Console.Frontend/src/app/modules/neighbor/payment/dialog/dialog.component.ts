@@ -71,17 +71,21 @@ export class PaymentDialog implements OnInit {
             month: ['', [Validators.required]],
             description: ['', [Validators.required]],
             payedAt: [''],
-            email: [this.user?.email],
+            email: [this.user?.email || this.user?.Email],
             serviceId: ['', [Validators.required]],
         });
     }
 
     private _onGetSession() {
-        this._session.user$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user) => {
-                this.user = user;
-            });
+        if (!this.data?.user) {
+            this._session.user$
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((user) => {
+                    this.user = user;
+                });
+        }
+
+        this.user = this.data.user;
     }
 
     private setForm(payment: IPayment) {

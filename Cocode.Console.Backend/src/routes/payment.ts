@@ -77,7 +77,7 @@ router.post(
   "/create",
   createPaymentValidationRules(),
   validateJWT,
-  validateRole(3),
+  validateRole(1, 3),
   validateFields,
   savePayment
 );

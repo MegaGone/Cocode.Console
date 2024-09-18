@@ -11,7 +11,16 @@
 
 .doc-file {
     color: white;
-    text-align: center;
     font-weight: bold;
+    text-align: center;
     font-style: italic;
+}
+
+.mat-dialog-payment-title {
+    margin: 0 !important;
+}
+
+.mat-dialog-payment-subtitle {
+    font-size: 15px;
+    color: gray !important;
 }

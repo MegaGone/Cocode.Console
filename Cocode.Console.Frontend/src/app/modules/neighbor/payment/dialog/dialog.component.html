@@ -1,5 +1,11 @@
 <ng-container *ngIf="isNew">
-    <h2 mat-dialog-title>Realizar pago</h2>
+    <h1 mat-dialog-title class="mat-dialog-payment-title">Realizar pago</h1>
+    <strong
+        mat-dialog-title
+        *ngIf="data?.user"
+        class="mat-dialog-payment-subtitle"
+        >Cliente: {{ user?.DisplayName }}</strong
+    >
 
     <form name="form" [formGroup]="form" (ngSubmit)="registerPayment()">
         <mat-form-field>
