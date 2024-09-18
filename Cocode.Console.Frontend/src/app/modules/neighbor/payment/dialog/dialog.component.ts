@@ -83,9 +83,9 @@ export class PaymentDialog implements OnInit {
                 .subscribe((user) => {
                     this.user = user;
                 });
+        } else {
+            this.user = this.data.user;
         }
-
-        this.user = this.data.user;
     }
 
     private setForm(payment: IPayment) {
