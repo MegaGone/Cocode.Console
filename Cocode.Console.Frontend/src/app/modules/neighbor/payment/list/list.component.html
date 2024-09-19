@@ -72,6 +72,16 @@
                                 svgIcon="heroicons_outline:pencil-alt"
                             ></mat-icon>
                         </button>
+                        <button
+                            mat-stroked-button
+                            [matTooltip]="'Descargar comprobante'"
+                            (click)="downloadRecipe(payment?.recipe)"
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:folder-download"
+                            ></mat-icon>
+                        </button>
                     </div>
                     <!-- /OPTIONS -->
                 </div>

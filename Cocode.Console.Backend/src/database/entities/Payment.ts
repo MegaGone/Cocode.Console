@@ -25,4 +25,7 @@ export class PaymentData {
 
   @Column({ nullable: false })
   serviceId!: number;
+
+  @Column({ nullable: false })
+  recipe!: string;
 }

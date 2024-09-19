@@ -59,14 +59,23 @@ export class PaymentService {
             );
     }
 
-    public createPayment(payment: IPayment): Observable<number> {
+    public createPayment(
+        payment: IPayment
+    ): Observable<{ statusCode: number; filename: string }> {
         return this._http
-            .post(`${base_url}/payment/create`, payment, this.getHeaders)
+            .post<{ id: number; statusCode: number; recipe: string }>(
+                `${base_url}/payment/create`,
+                payment,
+                this.getHeaders
+            )
             .pipe(
-                map((res: { id: number; statusCode: number }) =>
-                    res.statusCode ? res.statusCode : 500
-                ),
-                catchError((err) => of(err.status))
+                map((res) => ({
+                    statusCode: res?.statusCode || 500,
+                    filename: res?.recipe,
+                })),
+                catchError((err) =>
+                    of({ statusCode: err.status, filename: '' })
+                )
             );
     }
 
@@ -90,6 +99,15 @@ export class PaymentService {
         ];
 
         return months.slice(0, currentMonth);
+    }
+
+    public download(filename: string): Observable<Blob> {
+        return this._http.get(
+            `${base_url.replace('/api', '')}/uploads/${filename}`,
+            {
+                responseType: 'blob',
+            }
+        );
     }
 
     public getAmounts() {

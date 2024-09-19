@@ -124,7 +124,7 @@ export class PaymentDialog implements OnInit {
             );
 
         this._service.createPayment(this.form.value).subscribe((res) => {
-            if (res == 403) {
+            if (res.statusCode == 403) {
                 const month = this.months.find(
                     (m) => m.value == this.form.controls.month?.value
                 ).description;
@@ -133,7 +133,7 @@ export class PaymentDialog implements OnInit {
                 );
             }
 
-            if (res == 200) {
+            if (res.statusCode == 200 && res.filename) {
                 this.onClose(true);
                 return this._snackbar.open(
                     'Se ha registrado el pago exitósamente.'

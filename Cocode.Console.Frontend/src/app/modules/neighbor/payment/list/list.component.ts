@@ -156,4 +156,20 @@ export class ListComponent implements OnInit, OnDestroy {
     public translateService(serviceId: number): string {
         return this.services.find((s) => s.id === serviceId)?.Name || '';
     }
+
+    public downloadRecipe(filename: string) {
+        this._payment
+            .download(filename)
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res: Blob) => {
+                const sanitizedName = filename?.replace(/.*_/, '');
+                const blob = new Blob([res], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = sanitizedName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+    }
 }

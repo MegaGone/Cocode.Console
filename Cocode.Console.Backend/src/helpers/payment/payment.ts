@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { PaymentService } from "../../services";
 
 export const validatePayment = async (
@@ -23,4 +24,9 @@ export const validateSolvent = (payments: number): boolean => {
   const totalMonths = currentDate.getMonth() + 1;
 
   return payments >= totalMonths;
+};
+
+export const generateFileID = () => {
+  const uniqueID = uuidv4();
+  return `${uniqueID}.pdf`;
 };

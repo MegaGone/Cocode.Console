@@ -9,7 +9,7 @@ export const createPaymentValidationRules = (additionalRules: any = null) => {
       warnings: "This field doesn't exist, is not a string or is empty.",
     }),
     genericStringRule(
-      "photo",
+      ["photo", "paymentType"],
       {
         requiredType: "string",
         warnings: "This field doesn't exist, is not a string or is empty.",
