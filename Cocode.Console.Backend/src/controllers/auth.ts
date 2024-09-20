@@ -1,18 +1,26 @@
+import { compareSync } from "bcrypt";
 import { AuthService } from "../services";
 import { Request, Response } from "express";
 import { UserData } from "../database/entities/User";
 import { generateJWT, getMenuByRole } from "../helpers";
 
 export const login = async (_req: Request, _res: Response) => {
-  const { email, dpi } = _req.body;
+  const { dpi, password } = _req.body;
 
   try {
     const authService: AuthService = _req.app.locals.authService;
-    const user: UserData | null = await authService.getRecord(email, dpi);
+    const user: UserData | null = await authService.getRecord(dpi);
 
     if (!user) {
       return _res.status(404).json({
         statusCode: 404,
+      });
+    }
+
+    const validPassword = compareSync(password, user.Password);
+    if (!validPassword) {
+      return _res.status(400).json({
+        statusCode: 400,
       });
     }
 

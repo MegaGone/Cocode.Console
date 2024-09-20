@@ -8,10 +8,10 @@ export class AuthService {
     this.authRepository = new BaseRepository.default(datasource, UserData);
   }
 
-  async getRecord(email: string, dpi: string): Promise<UserData | null> {
+  async getRecord(dpi: string): Promise<UserData | null> {
     try {
       const user: UserData | null = await this.authRepository.findOne(
-        { Email: email, Dpi: dpi },
+        { Dpi: dpi },
         false
       );
 

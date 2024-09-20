@@ -31,27 +31,6 @@
 
             <!-- Sign in form -->
             <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
-                <!-- Email field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Correo electrónico</mat-label>
-                    <input
-                        id="email"
-                        matInput
-                        autocomplete="off"
-                        [formControlName]="'email'"
-                    />
-                    <mat-error
-                        *ngIf="signInForm.get('email').hasError('required')"
-                    >
-                        Correo electrónico requerido
-                    </mat-error>
-                    <mat-error
-                        *ngIf="signInForm.get('email').hasError('email')"
-                    >
-                        Por favor ingrese un correo electrónico válido
-                    </mat-error>
-                </mat-form-field>
-
                 <!-- DPI -->
                 <mat-form-field class="w-full">
                     <mat-label>DPI</mat-label>
@@ -71,6 +50,40 @@
                     >
                         DPI no válido
                     </mat-error>
+                </mat-form-field>
+
+                <!-- Password field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Contraseña</mat-label>
+                    <input
+                        id="password"
+                        matInput
+                        type="password"
+                        [formControlName]="'password'"
+                        #passwordField
+                    />
+                    <button
+                        mat-icon-button
+                        type="button"
+                        (click)="
+                            passwordField.type === 'password'
+                                ? (passwordField.type = 'text')
+                                : (passwordField.type = 'password')
+                        "
+                        matSuffix
+                    >
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"
+                        ></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"
+                        ></mat-icon>
+                    </button>
+                    <mat-error> La contraseña es requireda </mat-error>
                 </mat-form-field>
 
                 <!-- Actions -->
@@ -110,7 +123,9 @@
     </div>
     <div
         class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l"
-        style="background-image: url('/assets/images/background.jpg')"
+        style="
+            background-image: url('https://megagone.github.io/Cocode/assets/images/background.jpg');
+        "
     >
         <!-- Background - @formatter:off -->
         <!-- Rings -->

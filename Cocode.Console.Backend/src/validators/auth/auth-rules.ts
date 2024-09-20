@@ -5,7 +5,7 @@ export const loginValidatonRules = (additionalRules: any = null) => {
 
   return [
     genericStringRule(
-      ["email", "dpi"],
+      ["dpi", "password"],
       {
         requiredType: "string",
         warnings: "This field doesn't exist, is not a string or is empty.",
