@@ -28,4 +28,7 @@ export class PaymentData {
 
   @Column({ nullable: false })
   recipe!: string;
+
+  @Column({ type: "int", default: 1 })
+  state!: number;
 }

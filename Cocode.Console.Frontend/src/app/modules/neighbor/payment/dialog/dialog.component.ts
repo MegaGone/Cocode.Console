@@ -133,7 +133,7 @@ export class PaymentDialog implements OnInit {
                 );
             }
 
-            if (res.statusCode == 200 && res.filename) {
+            if (res.statusCode == 200) {
                 this.onClose(true);
                 return this._snackbar.open(
                     'Se ha registrado el pago exitósamente.'

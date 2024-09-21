@@ -11,6 +11,7 @@
             <div>Monto</div>
             <div>Mes</div>
             <div>Fecha de pago</div>
+            <div>Estado</div>
             <div>Opciones</div>
         </div>
         <!-- -HEADER -->
@@ -59,6 +60,36 @@
 
                     <div class="truncate">
                         {{ convertDate(payment?.payedAt) }}
+                    </div>
+
+                    <div class="truncate">
+                        <mat-icon
+                            *ngIf="payment?.state === 1"
+                            style="color: rgb(3, 159, 187)"
+                            [matTooltip]="'Pendiente de revisión'"
+                            svgIcon="heroicons_outline:information-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: green"
+                            *ngIf="payment?.state === 2"
+                            [matTooltip]="'Aprobado'"
+                            svgIcon="heroicons_outline:check-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: red"
+                            *ngIf="payment?.state === 3"
+                            [matTooltip]="'Rechazado'"
+                            svgIcon="heroicons_outline:x-circle"
+                        ></mat-icon>
+
+                        <mat-icon
+                            style="color: rgb(255, 145, 0)"
+                            *ngIf="payment?.state === 4"
+                            [matTooltip]="'Anulado'"
+                            svgIcon="heroicons_outline:minus-circle"
+                        ></mat-icon>
                     </div>
 
                     <!-- OPTIONS -->
