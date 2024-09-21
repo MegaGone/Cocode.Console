@@ -92,63 +92,71 @@ export class PaymentComponent implements OnInit, OnDestroy {
         const payments = this.payments?.map(
             ({ id, userId, photo, ...payment }) => {
                 return {
-                    monto: payment?.amount,
-                    descripcion: payment?.description,
-                    fecha: this._convertDate(payment?.payedAt),
-                    mes: this._convertMonth(parseInt(payment?.month)),
-                    servicio: this._translateService(payment?.serviceId),
+                    Monto: payment?.amount,
+                    Descripcion: payment?.description,
+                    Fecha: this._convertDate(payment?.payedAt),
+                    Mes: this._convertMonth(parseInt(payment?.month)),
+                    Servicio: this._translateService(payment?.serviceId),
+                    Estado: this._translateState(payment?.state),
                 };
             }
         );
 
-        const total = payments?.reduce(
-            (acc, payment) => acc + (payment.monto || 0),
+        const total = this.payments?.reduce(
+            (acc, payment) =>
+                acc + ((payment.state <= 2 ? payment.amount : 0) || 0),
             0
         );
 
-        const fileName: string = `${this.optionSelected?.DisplayName?.replace(
+        const baseName: string = !this.optionSelected?.DisplayName
+            ? this.user?.name
+            : this.optionSelected?.DisplayName;
+        const baseDpi: string = !this.optionSelected?.Dpi
+            ? this.user?.dpi
+            : this.optionSelected?.Dpi;
+        const baseAddress: string = !this.optionSelected?.Direccion
+            ? this.user?.direccion
+            : this.optionSelected?.Direccion;
+        const basePhone: string = !this.optionSelected?.Telefono
+            ? this.user?.telefono
+            : this.optionSelected?.Telefono;
+
+        const fileName: string = `${baseName?.replace(
             ' ',
             '_'
         )}_${this._getHexadecimalDate()}.xlsx`;
 
         const ws = XLSX.utils.aoa_to_sheet([]);
 
+        XLSX.utils.sheet_add_aoa(ws, [['Usuario: ' + baseName]], {
+            origin: 'A1',
+        });
         XLSX.utils.sheet_add_aoa(
             ws,
-            [['Usuario: ' + this.optionSelected.DisplayName]],
-            { origin: 'A1' }
-        );
-        XLSX.utils.sheet_add_aoa(
-            ws,
-            [
-                [
-                    'Documento Personal de Identificación : ' +
-                        this.optionSelected.Dpi,
-                ],
-            ],
+            [['Documento Personal de Identificación : ' + baseDpi]],
             {
                 origin: 'A2',
             }
         );
-        XLSX.utils.sheet_add_aoa(
-            ws,
-            [['Dirección: ' + this.optionSelected.Direccion]],
-            { origin: 'A3' }
-        );
-        XLSX.utils.sheet_add_aoa(
-            ws,
-            [['Telefono: ' + this.optionSelected.Telefono]],
-            { origin: 'A4' }
-        );
-        XLSX.utils.sheet_add_aoa(ws, [['Subotal: Q' + total]], {
-            origin: 'A5',
+        XLSX.utils.sheet_add_aoa(ws, [['Dirección: ' + baseAddress]], {
+            origin: 'A3',
         });
+        XLSX.utils.sheet_add_aoa(ws, [['Telefono: ' + basePhone]], {
+            origin: 'A4',
+        });
+        XLSX.utils.sheet_add_aoa(
+            ws,
+            [['Subotal (Aprobados y pendientes): Q' + total]],
+            {
+                origin: 'A5',
+            }
+        );
 
         XLSX.utils.sheet_add_aoa(ws, [[]], { origin: -1 });
         XLSX.utils.sheet_add_json(ws, payments, { origin: -1 });
 
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Placeholder');
+        XLSX.utils.book_append_sheet(wb, ws, 'COCODE CUILCO');
         XLSX.writeFile(wb, fileName);
     }
 
@@ -199,6 +207,19 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
     private _translateService(serviceId: number): string {
         return this.services.find((s) => s.id === serviceId)?.Name || '';
+    }
+
+    private _translateState(state: number): string {
+        switch (state) {
+            case 2:
+                return 'Aprobado';
+            case 3:
+                return 'Rechazado';
+            case 4:
+                return 'Anulado';
+            default:
+                return 'Pendiente';
+        }
     }
 
     private _getHexadecimalDate(): string {

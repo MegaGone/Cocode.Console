@@ -8,4 +8,7 @@ export interface User {
     createdAt: string;
     role: number;
     isSolvent: boolean;
+    dpi?: string;
+    telefono?: number;
+    direccion?: string;
 }

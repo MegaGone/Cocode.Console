@@ -30,6 +30,9 @@ export class AuthService {
         "id",
         "DisplayName",
         "Email",
+        "Dpi",
+        "Telefono",
+        "Direccion",
       ]);
       if (!user) return null;
 

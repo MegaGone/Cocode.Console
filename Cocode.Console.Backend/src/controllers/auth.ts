@@ -66,6 +66,9 @@ export const getSession = async (_req: Request, _res: Response) => {
       name: user.DisplayName,
       role: user.Role,
       createdAt: user.createdAt,
+      dpi: user.Dpi,
+      telefono: user.Telefono,
+      direccion: user.Direccion,
     };
 
     return _res.status(200).json({

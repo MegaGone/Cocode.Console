@@ -7,6 +7,7 @@ export interface IPayment {
     payedAt?: string;
     description: string;
     serviceId?: number;
+    state?: number;
 }
 
 export interface IGetPayments {
