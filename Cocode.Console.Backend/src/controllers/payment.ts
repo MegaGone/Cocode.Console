@@ -6,7 +6,7 @@ import {
   ServicesService,
   UserService,
 } from "../services";
-import { getCurrentDate, sanitizeDate } from "../helpers";
+import { deleteFile, getCurrentDate, sanitizeDate } from "../helpers";
 import { PDFGenerator } from "../clients";
 
 export const savePayment = async (_req: Request, _res: Response) => {
@@ -159,6 +159,8 @@ export const denyPayment = async (_req: Request, _res: Response) => {
       state: 3,
     });
 
+    await deleteFile(payment?.recipe);
+
     return _res.json({
       updated: wasUpdated,
       statusCode: 200,
@@ -198,6 +200,8 @@ export const cancelPayment = async (_req: Request, _res: Response) => {
     const wasUpdated = await paymentService.updateStatus(paymentId, {
       state: 4,
     });
+
+    await deleteFile(payment?.recipe);
 
     return _res.json({
       updated: wasUpdated,
