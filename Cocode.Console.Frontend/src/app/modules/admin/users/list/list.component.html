@@ -10,6 +10,7 @@
             <div [mat-sort-header]="'name'">Nombre</div>
             <div class="hidden sm:block">Email</div>
             <div class="hidden lg:block">Rol</div>
+            <div class="hidden lg:block">Teléfono</div>
             <div class="hidden sm:block">Estado</div>
             <div class="hidden sm:block">Opciones</div>
         </div>
@@ -51,6 +52,12 @@
                         {{ translateRole(user.Role) }}
                     </div>
                     <!-- /ROLE -->
+
+                    <!-- DIRECCIÓN -->
+                    <div class="truncate">
+                        {{ user.Telefono }}
+                    </div>
+                    <!-- /DIRECCIÓN -->
 
                     <!-- IS SOLVENT -->
                     <div class="truncate">

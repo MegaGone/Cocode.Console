@@ -246,24 +246,24 @@
         <mat-form-field>
             <input
                 matInput
-                placeholder="Documento Personal de Identificación"
-                formControlName="dpi"
+                readonly
+                placeholder="Dirección"
+                formControlName="direccion"
             />
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Telefono" formControlName="telefono" />
             <mat-error
                 *ngIf="
-                    userForm.get('dpi').invalid && userForm.get('dpi').touched
+                    userForm.get('telefono').invalid &&
+                    userForm.get('telefono').touched
                 "
             >
                 Este campo es requerido.
             </mat-error>
-            <mat-error *ngIf="userForm.get('dpi')?.errors?.minlength">
-                El DPI debe tener exactamente 13 dígitos.
-            </mat-error>
-            <mat-error *ngIf="userForm.get('dpi')?.errors?.maxlength">
-                El DPI debe tener exactamente 13 dígitos.
-            </mat-error>
-            <mat-error *ngIf="userForm.get('dpi')?.errors?.pattern">
-                El DPI debe contener solo números.
+            <mat-error *ngIf="userForm.get('telefono')?.hasError('pattern')">
+                Número de teléfono no válido.
             </mat-error>
         </mat-form-field>
 

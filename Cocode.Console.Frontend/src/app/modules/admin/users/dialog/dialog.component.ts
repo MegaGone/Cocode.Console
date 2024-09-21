@@ -28,7 +28,6 @@ export class UserDialogComponent implements OnInit {
     ) {
         this.roles = roles;
         this._phoneRegex = new RegExp(/^[256789]\d{7}$/);
-        // this._phoneRegex = new RegExp('^[26789]\\d{7}$');
     }
 
     ngOnInit(): void {
@@ -75,11 +74,12 @@ export class UserDialogComponent implements OnInit {
             email: user.Email,
             password: '',
             dpi: user?.Dpi,
-            telefono: user?.telefono,
-            direccion: user?.direccion,
+            telefono: user?.Telefono,
+            direccion: user?.Direccion,
         });
 
         this.userForm.controls.password.clearValidators();
+        this.userForm.controls.direccion.clearValidators();
     }
 
     createUser() {

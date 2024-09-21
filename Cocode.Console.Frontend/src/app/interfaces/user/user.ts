@@ -18,6 +18,8 @@ export interface User {
     Dpi?: string;
     telefono?: string;
     direccion?: string;
+    Telefono?: string;
+    Direccion?: string;
 }
 
 export interface Users {
