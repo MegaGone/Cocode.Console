@@ -48,7 +48,7 @@
                         <mat-icon
                             style="color: red"
                             *ngIf="wage?.Status === 3"
-                            [matTooltip]="'Cancelado'"
+                            [matTooltip]="'Denegado'"
                             svgIcon="heroicons_outline:x-circle"
                         ></mat-icon>
 
@@ -84,7 +84,7 @@
                         </button>
                         <button
                             mat-stroked-button
-                            [matTooltip]="'Eliminar'"
+                            [matTooltip]="'Denegar'"
                             (click)="removeWage(wage?.Id)"
                             [disabled]="
                                 wage?.DeletedAt !== null || wage?.Status === 2

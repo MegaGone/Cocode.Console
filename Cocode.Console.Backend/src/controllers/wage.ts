@@ -83,3 +83,19 @@ export const findWagesPaginated = async (_req: Request, _res: Response) => {
     });
   }
 };
+
+export const findAllWages = async (_req: Request, _res: Response) => {
+  try {
+    const wageService: WageService = await _req.app.locals.wageService;
+    const wages = await wageService.findAll();
+
+    return _res.status(200).json({
+      wages,
+      statusCode: 200,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};

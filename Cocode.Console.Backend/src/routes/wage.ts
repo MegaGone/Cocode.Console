@@ -2,6 +2,7 @@ import { Router } from "express";
 import { validateFields, validateJWT, validateRole } from "../middlewares";
 import {
   deleteWage,
+  findAllWages,
   findWagesPaginated,
   registerWage,
   updateWageStatus,
@@ -51,6 +52,14 @@ export class WageRouter {
       validateRole(1),
       validateFields,
       findWagesPaginated
+    );
+
+    router.get(
+      "/find",
+      validateJWT,
+      validateRole(1),
+      validateFields,
+      findAllWages
     );
 
     return router;

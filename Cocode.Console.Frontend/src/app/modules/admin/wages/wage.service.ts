@@ -1,6 +1,7 @@
 import {
     BehaviorSubject,
     catchError,
+    firstValueFrom,
     map,
     Observable,
     of,
@@ -94,6 +95,25 @@ export class WageService {
                 }),
                 catchError((err) => of(null))
             );
+    }
+
+    public async findAll(): Promise<Array<IWage>> {
+        return firstValueFrom(
+            this._http
+                .get<{ statusCode: number; wages: Array<IWage> }>(
+                    `${base_url}/wage/find`,
+                    this._getHeaders
+                )
+                .pipe(
+                    map((res) => {
+                        if (res.statusCode && res.statusCode === 200) {
+                            return res.wages;
+                        }
+                        return null;
+                    }),
+                    catchError((err) => of([]))
+                )
+        );
     }
 
     private get _getToken() {

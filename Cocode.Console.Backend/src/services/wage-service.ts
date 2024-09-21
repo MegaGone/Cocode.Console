@@ -79,4 +79,19 @@ export class WageService {
       throw error;
     }
   }
+
+  public async findAll() {
+    try {
+      const data = await this._wageRepository.findAll(
+        {},
+        {
+          CreatedAt: "DESC",
+        }
+      );
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
