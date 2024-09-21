@@ -40,6 +40,23 @@ export class MinuteService {
     }
   }
 
+  public async enable(id: number): Promise<boolean> {
+    try {
+      const { affected } = await this._minuteRepository.update(
+        {
+          Id: id,
+        },
+        {
+          DeletedAt: null,
+        }
+      );
+
+      return affected && affected >= 1 ? true : false;
+    } catch (error) {
+      return false;
+    }
+  }
+
   public async findMinuteName(id: number): Promise<string> {
     try {
       const record = await this._minuteRepository.findOne(

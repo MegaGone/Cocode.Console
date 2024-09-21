@@ -44,6 +44,24 @@ export const disableMinute = async (_req: Request, _res: Response) => {
   }
 };
 
+export const enableMinute = async (_req: Request, _res: Response) => {
+  try {
+    const { id } = _req.params;
+
+    const minuteService: MinuteService = _req.app.locals.minuteService;
+    const wasEnabled = await minuteService.enable(+id);
+
+    return _res.status(200).json({
+      enable: wasEnabled,
+      statusCode: 200,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};
+
 export const findMinutesPaginated = async (_req: Request, _res: Response) => {
   try {
     const { role } = _req;

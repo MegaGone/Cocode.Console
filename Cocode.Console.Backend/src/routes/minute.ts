@@ -2,12 +2,14 @@ import { Router } from "express";
 import {
   createMinute,
   disableMinute,
+  enableMinute,
   findMinutesPaginated,
 } from "../controllers";
 import { validateFields, validateJWT, validateRole } from "../middlewares";
 import { upload } from "../clients";
 import {
   disableMinuteValidationRules,
+  enableMinuteValidationRules,
   findMinutesValidationRules,
 } from "../validators";
 
@@ -36,8 +38,18 @@ export class MinuteRouter {
       "/disable/:id",
       validateJWT,
       disableMinuteValidationRules(),
+      validateRole(1),
       validateFields,
       disableMinute
+    );
+
+    router.put(
+      "/enable/:id",
+      validateJWT,
+      enableMinuteValidationRules(),
+      validateRole(1),
+      validateFields,
+      enableMinute
     );
 
     return router;

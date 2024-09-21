@@ -50,6 +50,17 @@ export class MinuteService {
             );
     }
 
+    public enable(id: number): Observable<number> {
+        return this._http
+            .put(`${base_url}/minute/enable/${id}`, null, this._getHeaders)
+            .pipe(
+                map((res: { enable: boolean; statusCode: number }) =>
+                    res.statusCode ? res.statusCode : 500
+                ),
+                catchError((err) => of(err.status))
+            );
+    }
+
     public download(filename: string): Observable<Blob> {
         return this._http.get(
             `${base_url.replace('/api', '')}/uploads/${filename}`,

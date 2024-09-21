@@ -15,6 +15,7 @@ import { MatSort } from '@angular/material/sort';
 import { IMinute } from 'app/interfaces';
 import { UserService } from 'app/core/user/user.service';
 import { SnackBarService, transformDate } from 'app/utils';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'minute-list',
@@ -47,7 +48,8 @@ export class ListComponent implements OnInit {
         private readonly _user: UserService,
         private readonly _minute: MinuteService,
         private readonly _snackbar: SnackBarService,
-        private readonly _changeDetectorRef: ChangeDetectorRef
+        private readonly _changeDetectorRef: ChangeDetectorRef,
+        private readonly _fuseConfirmationService: FuseConfirmationService
     ) {
         this._unsubscribeAll = new Subject();
     }
@@ -59,17 +61,77 @@ export class ListComponent implements OnInit {
     }
 
     public disableMinute(id: number) {
-        this._minute
-            .disable(id)
+        this._fuseConfirmationService
+            .open({
+                icon: {
+                    name: 'heroicons_outline:eye-off',
+                },
+                title: 'Deshabilitar acta',
+                message: '¿Está seguro en deshabilitar el acta?',
+                actions: {
+                    confirm: {
+                        label: 'Deshabilitar',
+                    },
+                    cancel: {
+                        label: 'Cancelar',
+                    },
+                },
+            })
+            .afterClosed()
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((res) => {
-                const message: string =
-                    res === 200
-                        ? 'Se ha deshabilitado el acta exitósamente'
-                        : 'Ha ocurrido un error al deshabilitar el acta.';
+                if (res === 'confirmed') {
+                    this._minute
+                        .disable(id)
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe((res) => {
+                            const message: string =
+                                res === 200
+                                    ? 'Se ha deshabilitado el acta exitósamente'
+                                    : 'Ha ocurrido un error al deshabilitar el acta.';
 
-                this._onGetMinutes();
-                this._snackbar.open(message);
+                            this._onGetMinutes();
+                            this._snackbar.open(message);
+                        });
+                }
+            });
+    }
+
+    public enableMinute(id: number) {
+        this._fuseConfirmationService
+            .open({
+                icon: {
+                    color: 'accent',
+                    name: 'heroicons_outline:eye',
+                },
+                title: 'Habilitar acta',
+                message: '¿Está seguro en habilitar el acta?',
+                actions: {
+                    confirm: {
+                        label: 'Habilitar',
+                    },
+                    cancel: {
+                        label: 'Cancelar',
+                    },
+                },
+            })
+            .afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                if (res === 'confirmed') {
+                    this._minute
+                        .enable(id)
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe((res) => {
+                            const message: string =
+                                res === 200
+                                    ? 'Se ha habilitado el acta exitósamente.'
+                                    : 'Ha ocurrido un error al habilitar el acta.';
+
+                            this._onGetMinutes();
+                            this._snackbar.open(message);
+                        });
+                }
             });
     }
 

@@ -48,3 +48,19 @@ export const disableMinuteValidationRules = (additionalRules: any = null) => {
     ...newRules,
   ];
 };
+
+export const enableMinuteValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericQueryParamIdRule(
+      "id",
+      {
+        location: PARAM_LOCATION.HEADER,
+        warnings: "This field doesn't exist, is not a integer or is empty",
+      },
+      true
+    ),
+    ...newRules,
+  ];
+};
