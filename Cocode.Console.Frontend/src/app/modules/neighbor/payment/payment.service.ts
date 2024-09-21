@@ -79,6 +79,60 @@ export class PaymentService {
             );
     }
 
+    public approvePayment(request: { paymentId: number; userId: number }) {
+        return this._http
+            .put<{ statusCode: number; updated: boolean }>(
+                `${base_url}/payment/approve`,
+                request,
+                this.getHeaders
+            )
+            .pipe(
+                map((res) => ({
+                    updated: res?.updated || false,
+                    statusCode: res?.statusCode || 500,
+                })),
+                catchError((err) =>
+                    of({ statusCode: err.status, updated: false })
+                )
+            );
+    }
+
+    public denyPayment(request: { paymentId: number; userId: number }) {
+        return this._http
+            .put<{ statusCode: number; updated: boolean }>(
+                `${base_url}/payment/deny`,
+                request,
+                this.getHeaders
+            )
+            .pipe(
+                map((res) => ({
+                    updated: res?.updated || false,
+                    statusCode: res?.statusCode || 500,
+                })),
+                catchError((err) =>
+                    of({ statusCode: err.status, updated: false })
+                )
+            );
+    }
+
+    public cancelPayment(request: { paymentId: number; userId: number }) {
+        return this._http
+            .put<{ statusCode: number; updated: boolean }>(
+                `${base_url}/payment/cancel`,
+                request,
+                this.getHeaders
+            )
+            .pipe(
+                map((res) => ({
+                    updated: res?.updated || false,
+                    statusCode: res?.statusCode || 500,
+                })),
+                catchError((err) =>
+                    of({ statusCode: err.status, updated: false })
+                )
+            );
+    }
+
     public getMonths() {
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1;

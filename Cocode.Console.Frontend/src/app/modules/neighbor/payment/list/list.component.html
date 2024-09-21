@@ -105,12 +105,57 @@
                         </button>
                         <button
                             mat-stroked-button
+                            *ngIf="user?.role === 1"
+                            (click)="approve(payment)"
+                            [matTooltip]="'Aprobar pago'"
+                            [disabled]="
+                                payment?.state === 2 ||
+                                payment?.state === 3 ||
+                                payment?.state === 4
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:check"
+                            ></mat-icon>
+                        </button>
+                        <button
+                            mat-stroked-button
+                            *ngIf="user?.role === 1"
+                            (click)="deny(payment)"
+                            [matTooltip]="'Denegar pago'"
+                            [disabled]="
+                                payment?.state === 2 ||
+                                payment?.state === 3 ||
+                                payment?.state === 4
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon svgIcon="heroicons_outline:x"></mat-icon>
+                        </button>
+                        <button
+                            mat-stroked-button
+                            *ngIf="user?.role === 1"
+                            (click)="cancel(payment)"
+                            [matTooltip]="'Anular pago'"
+                            [disabled]="
+                                payment?.state <= 1 || payment?.state >= 4
+                            "
+                            class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
+                        >
+                            <mat-icon
+                                svgIcon="heroicons_outline:reply"
+                            ></mat-icon>
+                        </button>
+                        <button
+                            mat-stroked-button
+                            [disabled]="payment?.state !== 2"
                             [matTooltip]="'Descargar comprobante'"
                             (click)="downloadRecipe(payment?.recipe)"
                             class="min-w-10 min-h-7 h-7 px-2 leading-6 ml-2"
                         >
                             <mat-icon
-                                svgIcon="heroicons_outline:folder-download"
+                                svgIcon="heroicons_outline:save"
                             ></mat-icon>
                         </button>
                     </div>

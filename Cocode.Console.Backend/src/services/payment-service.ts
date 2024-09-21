@@ -24,6 +24,35 @@ export class PaymentService {
     }
   }
 
+  public async findRecord(
+    payment: Partial<PaymentData>
+  ): Promise<PaymentData | null> {
+    try {
+      const record = await this.paymentRepository.findOne(payment);
+      return record;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  public async updateStatus(
+    id: number,
+    papayment: Partial<PaymentData>
+  ): Promise<boolean> {
+    try {
+      const { affected } = await this.paymentRepository.update(
+        {
+          id: id,
+        },
+        papayment
+      );
+
+      return affected && affected >= 1 ? true : false;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async getRecords(page: number, size: number, userId: string) {
     try {
       const skip = (page - 1) * size;

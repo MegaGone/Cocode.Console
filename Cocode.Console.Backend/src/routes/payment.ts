@@ -1,7 +1,16 @@
 import { Router } from "express";
-import { getPayments, savePayment } from "../controllers";
 import {
+  approvePayment,
+  cancelPayment,
+  denyPayment,
+  getPayments,
+  savePayment,
+} from "../controllers";
+import {
+  approvePaymentValidationRules,
+  cancelPaymentValidationRules,
   createPaymentValidationRules,
+  denyPaymentValidationRules,
   getPaymentsValidationRules,
 } from "../validators";
 import { validateFields, validateJWT, validateRole } from "../middlewares";
@@ -140,6 +149,33 @@ router.post(
   validateRole(1, 3),
   validateFields,
   getPayments
+);
+
+router.put(
+  "/approve",
+  approvePaymentValidationRules(),
+  validateJWT,
+  validateRole(1),
+  validateFields,
+  approvePayment
+);
+
+router.put(
+  "/deny",
+  denyPaymentValidationRules(),
+  validateJWT,
+  validateRole(1),
+  validateFields,
+  denyPayment
+);
+
+router.put(
+  "/cancel",
+  cancelPaymentValidationRules(),
+  validateJWT,
+  validateRole(1),
+  validateFields,
+  cancelPayment
 );
 
 export default router;

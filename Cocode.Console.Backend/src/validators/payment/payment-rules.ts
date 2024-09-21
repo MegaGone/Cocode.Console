@@ -45,3 +45,51 @@ export const getPaymentsValidationRules = (additionalRules: any = null) => {
     ...newRules,
   ];
 };
+
+export const approvePaymentValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericIntegerRule(
+      ["userId", "paymentId"],
+      {
+        requiredType: "integer",
+        warnings: "This field doesn't exist, is not a integer or is empty.",
+      },
+      {}
+    ),
+    ...newRules,
+  ];
+};
+
+export const denyPaymentValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericIntegerRule(
+      ["userId", "paymentId"],
+      {
+        requiredType: "integer",
+        warnings: "This field doesn't exist, is not a integer or is empty.",
+      },
+      {}
+    ),
+    ...newRules,
+  ];
+};
+
+export const cancelPaymentValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericIntegerRule(
+      ["userId", "paymentId"],
+      {
+        requiredType: "integer",
+        warnings: "This field doesn't exist, is not a integer or is empty.",
+      },
+      {}
+    ),
+    ...newRules,
+  ];
+};

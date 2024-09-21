@@ -15,7 +15,7 @@ import { UserService } from 'app/core/user/user.service';
 import { IPayment, IService } from 'app/interfaces';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { PaymentService } from '../payment.service';
-import { transformDate } from 'app/utils';
+import { SnackBarService, transformDate } from 'app/utils';
 import { PaymentDialog } from '../dialog/dialog.component';
 import { User } from 'app/core/user/user.types';
 import { ServicesService } from 'app/modules/admin/services/services.service';
@@ -55,6 +55,7 @@ export class ListComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private readonly _user: UserService,
         private readonly _payment: PaymentService,
+        private readonly _snackbar: SnackBarService,
         private readonly _services: ServicesService,
         private readonly _changeDetectorRef: ChangeDetectorRef
     ) {
@@ -126,6 +127,54 @@ export class ListComponent implements OnInit, OnDestroy {
             });
 
         this.services$ = this._services.services$;
+    }
+
+    public approve(payment: IPayment) {
+        this._payment
+            .approvePayment({ paymentId: payment.id, userId: payment.userId })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                const message: string =
+                    res?.statusCode != 200
+                        ? 'Ha ocurrido un error al aprobar el pago.'
+                        : 'Se ha aprobado el pago de manera exitósa.';
+
+                this._snackbar.open(message);
+                if (res.statusCode == 200)
+                    this.getPayments(this.userId, this.page, this.pageSize);
+            });
+    }
+
+    public deny(payment: IPayment) {
+        this._payment
+            .denyPayment({ paymentId: payment.id, userId: payment.userId })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                const message: string =
+                    res?.statusCode != 200
+                        ? 'Ha ocurrido un error al denegar el pago.'
+                        : 'Se ha denegado el pago de manera exitósa.';
+
+                this._snackbar.open(message);
+                if (res.statusCode == 200)
+                    this.getPayments(this.userId, this.page, this.pageSize);
+            });
+    }
+
+    public cancel(payment: IPayment) {
+        this._payment
+            .cancelPayment({ paymentId: payment.id, userId: payment.userId })
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((res) => {
+                const message: string =
+                    res?.statusCode != 200
+                        ? 'Ha ocurrido un error al anular el pago.'
+                        : 'Se ha anulado el pago de manera exitósa.';
+
+                this._snackbar.open(message);
+                if (res.statusCode == 200)
+                    this.getPayments(this.userId, this.page, this.pageSize);
+            });
     }
 
     public onChangeNeighbors() {

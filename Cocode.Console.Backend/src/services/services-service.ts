@@ -65,6 +65,15 @@ export class ServicesService {
     }
   }
 
+  public async findById(id: number): Promise<ServiceData | null> {
+    try {
+      const record = await this._repo.findOne({ id, IsEnabled: true });
+      return record;
+    } catch (error) {
+      return null;
+    }
+  }
+
   public async findPaginated(page: number, size: number, role: number) {
     try {
       const skip = (page - 1) * size;
