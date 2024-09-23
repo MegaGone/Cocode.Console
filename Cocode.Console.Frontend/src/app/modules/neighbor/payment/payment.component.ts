@@ -104,7 +104,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
         const total = this.payments?.reduce(
             (acc, payment) =>
-                acc + ((payment.state <= 2 ? payment.amount : 0) || 0),
+                acc + ((payment.state == 2 ? payment.amount : 0) || 0),
             0
         );
 
