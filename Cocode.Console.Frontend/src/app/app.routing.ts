@@ -8,6 +8,27 @@ const mainRoute = getMainRoute();
 
 export const appRoutes: Route[] = [
     {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/home',
+    },
+    {
+        path: '',
+        component: LayoutComponent,
+        data: {
+            layout: 'empty',
+        },
+        children: [
+            {
+                path: 'home',
+                loadChildren: () =>
+                    import('app/modules/landing/home/home.module').then(
+                        (m) => m.HomeModule
+                    ),
+            },
+        ],
+    },
+    {
         path: 'auth',
         component: LayoutComponent,
         data: {
@@ -120,6 +141,5 @@ export const appRoutes: Route[] = [
             { path: '**', pathMatch: 'full', redirectTo: 'pagos' },
         ],
     },
-    { path: '', pathMatch: 'full', redirectTo: `${mainRoute}` },
     { path: '**', pathMatch: 'full', redirectTo: `${mainRoute}` },
 ];

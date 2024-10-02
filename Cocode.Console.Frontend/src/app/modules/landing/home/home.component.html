@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <!--=============== FAVICON ===============-->
+        <link
+            rel="shortcut icon"
+            href="assets/img/favicon.png"
+            type="image/x-icon"
+        />
+
+        <!--=============== REMIXICONS ===============-->
+        <link
+            href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
+            rel="stylesheet"
+        />
+
+        <title>Cuilco</title>
+    </head>
+    <body>
+        <!--==================== HEADER ====================-->
+        <header class="header" id="header">
+            <nav class="nav container">
+                <a (click)="navigateTo('home')" class="nav__logo"
+                    >COCODE - Cuilco</a
+                >
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a (click)="navigateTo('about')" class="nav__link"
+                                >Sobre Cuilco</a
+                            >
+                        </li>
+
+                        <li class="nav__item">
+                            <a (click)="navigateTo('popular')" class="nav__link"
+                                >Paisajes</a
+                            >
+                        </li>
+
+                        <li class="nav__item">
+                            <a (click)="navigateTo('explore')" class="nav__link"
+                                >Misión, Visión y Valores</a
+                            >
+                        </li>
+                    </ul>
+
+                    <!-- Close button -->
+                    <div class="nav__close" id="nav-close">
+                        <i class="ri-close-line"></i>
+                    </div>
+                </div>
+
+                <!-- Toggle button -->
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </nav>
+        </header>
+
+        <!--==================== MAIN ====================-->
+        <main class="main">
+            <!--==================== HOME ====================-->
+            <section class="home section" id="home">
+                <img
+                    src="assets/landing/home-bg.jpg"
+                    alt="home image"
+                    class="home__bg"
+                />
+                <div class="home__shadow"></div>
+
+                <div class="home__container container grid">
+                    <div class="home__data">
+                        <h3 class="home__subtitle">Bienvenidos a</h3>
+
+                        <h1 class="home__title">CUILCO <br /></h1>
+
+                        <p class="home__description">
+                            El Consejo Comunitario de Desarrollo (COCODE) en
+                            Guatemala es una organización clave dentro del
+                            sistema de Consejos de Desarrollo del país, creada
+                            con el objetivo de facilitar la participación de la
+                            ciudadanía en la planificación, priorización y
+                            ejecución de proyectos de desarrollo local. Estos
+                            consejos actúan como un puente entre las comunidades
+                            y el gobierno local, regional y nacional, asegurando
+                            que las necesidades y aspiraciones de la población
+                            sean tomadas en cuenta en la elaboración de
+                            políticas y proyectos que promuevan el bienestar
+                            comunitario.
+                        </p>
+
+                        <a [routerLink]="['/auth/sign-in']" class="button">
+                            Ingresar al portal
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+
+                    <div class="home__cards grid">
+                        <article class="home__card">
+                            <img
+                                src="assets/landing/home-one.jpg"
+                                alt="home image"
+                                class="home__card-img"
+                            />
+                            <div class="home__card-shadow"></div>
+                        </article>
+
+                        <article class="home__card">
+                            <img
+                                src="assets/landing/home-two.jpg"
+                                alt="home image"
+                                class="home__card-img"
+                            />
+                            <div class="home__card-shadow"></div>
+                        </article>
+
+                        <article class="home__card">
+                            <img
+                                src="assets/landing/home-three.jpg"
+                                alt="home image"
+                                class="home__card-img"
+                            />
+                            <div class="home__card-shadow"></div>
+                        </article>
+
+                        <article class="home__card">
+                            <img
+                                src="assets/landing/home-four.jpg"
+                                alt="home image"
+                                class="home__card-img"
+                            />
+                            <div class="home__card-shadow"></div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!--==================== ABOUT ====================-->
+            <section class="about section" id="about">
+                <div class="about__container container grid">
+                    <div class="about__data">
+                        <h2 class="section__title">
+                            Más sobre <br />
+                            COCODE CUILCO
+                        </h2>
+
+                        <p class="about__description">
+                            En el caso de Cuilco, un municipio ubicado en el
+                            departamento de Huehuetenango, el COCODE desempeña
+                            un rol fundamental en la gestión de proyectos
+                            enfocados en mejorar la calidad de vida de sus
+                            habitantes. Cuilco, caracterizado por una población
+                            mayoritariamente indígena y rural, enfrenta desafíos
+                            relacionados con la infraestructura, el acceso a
+                            servicios básicos como agua potable, salud,
+                            educación y oportunidades de desarrollo económico.
+                        </p>
+                    </div>
+
+                    <div class="about__image">
+                        <img
+                            src="assets/landing/about.jpg"
+                            alt="about image"
+                            class="about__img"
+                        />
+                        <div class="about__shadow"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!--==================== POPULAR ====================-->
+            <section class="popular section" id="popular">
+                <h2 class="section__title">
+                    Disfruta de los paisajes <br />
+                    de Cuilco
+                </h2>
+
+                <div class="popular__container container grid">
+                    <article class="popular__card">
+                        <div class="popular__image">
+                            <img
+                                src="assets/landing/popular-one.jpg"
+                                alt="popular image"
+                                class="popular__img"
+                            />
+                            <div class="popular__shadow"></div>
+                        </div>
+
+                        <h2 class="popular__title">Cuilco</h2>
+                        <div class="popular__location">
+                            <i class="ri-map-pin-line"></i>
+                            <span>Guatemala, Cuilco</span>
+                        </div>
+                    </article>
+
+                    <article class="popular__card">
+                        <div class="popular__image">
+                            <img
+                                src="assets/landing/popular-four.jpg"
+                                alt="popular image"
+                                class="popular__img"
+                                style="max-height: 170px"
+                            />
+                            <div class="popular__shadow"></div>
+                        </div>
+
+                        <h2 class="popular__title">Aldea San Juan</h2>
+
+                        <div class="popular__location">
+                            <i class="ri-map-pin-line"></i>
+                            <span>Guatemala, Cuilco</span>
+                        </div>
+                    </article>
+
+                    <article class="popular__card">
+                        <div class="popular__image">
+                            <img
+                                src="assets/landing/popular-three.jpg"
+                                alt="popular image"
+                                class="popular__img"
+                            />
+                            <div class="popular__shadow"></div>
+                        </div>
+
+                        <h2 class="popular__title">Chiquihuil</h2>
+
+                        <div class="popular__location">
+                            <i class="ri-map-pin-line"></i>
+                            <span>Guatemala, Cuilco</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!--==================== EXPLORE ====================-->
+            <section class="explore section" id="explore">
+                <div class="explore__container">
+                    <div class="explore__image">
+                        <img
+                            src="assets/landing/explore.jpg"
+                            alt="expore image"
+                            class="explore__img"
+                        />
+                        <div class="explore__shadow"></div>
+                    </div>
+
+                    <div class="explore__content container grid">
+                        <div class="explore__data">
+                            <h2 class="section__title">Misión <br /></h2>
+
+                            <p class="explore__description">
+                                Fomentar la participación y organizada de la
+                                comunidad para identificar, priorizar y resolver
+                                sus necesidades y problemas, promoviendo el
+                                desarrollo integral y sostenible a través de la
+                                formulación e implementación de políticas,
+                                planes, programas y proyectos que respeten la
+                                cultura y diversidad de los pueblos.
+                            </p>
+                        </div>
+
+                        <div class="explore__data">
+                            <h2 class="section__title">Visión <br /></h2>
+
+                            <p class="explore__description">
+                                Ser un órgano comunitario modelo de
+                                participación democrática y equitativa,
+                                reconocido por su eficacia en la promoción del
+                                desarrollo sostenible y la mejora continua de la
+                                calidad de vida de sus habitantes, fortaleciendo
+                                la cohesión social y la identidad cultural de la
+                                comunidad.
+                            </p>
+                        </div>
+
+                        <div class="explore__data">
+                            <h2 class="section__title">Valores <br /></h2>
+
+                            <ul class="explore__description">
+                                <li>Inclusión</li>
+                                <li>Integridad</li>
+                                <li>Solidaridad</li>
+                                <li>Cooperación</li>
+                                <li>Transparencia</li>
+                                <li>Equidad e igualdad</li>
+                                <li>Solidaridad y cooperación</li>
+                            </ul>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--==================== JOIN ====================-->
+            <section class="join section">
+                <div class="join__container container grid">
+                    <div class="join__data">
+                        <h2 class="section__title">
+                            Ery Falú <br />
+                            Berdúo Morales
+                        </h2>
+                    </div>
+
+                    <div class="join__image">
+                        <img
+                            src="assets/landing/profile.jpg"
+                            alt="join image"
+                            class="join__img"
+                        />
+                        <div class="join__shadow"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!--==================== FOOTER ====================-->
+        <footer class="footer">
+            <div class="footer__container container grid">
+                <div class="footer__content grid">
+                    <div>
+                        <a href="#" class="footer__logo">COCODE - Cuilco</a>
+                    </div>
+
+                    <div class="footer__data grid">
+                        <div>
+                            <h3 class="footer__title">Enlaces externos</h3>
+
+                            <ul class="footer__links">
+                                <li>
+                                    <a
+                                        href="https://sistemas.segeplan.gob.gt/siscodew/ddpgpl$modulo.comunitario"
+                                        class="footer__link"
+                                        target="_blank"
+                                        >Consejos comunitarios</a
+                                    >
+                                </li>
+
+                                <li>
+                                    <a
+                                        href="https://sistemas.segeplan.gob.gt/guest/SCDPKG$PL_CONSEJOS.BUSQUEDA?prmGrupo=COM&prmOpcion=&prmIdConsejo="
+                                        class="footer__link"
+                                        target="_blank"
+                                        >Consejos comunitarios de desarrollo</a
+                                    >
+                                </li>
+
+                                <li>
+                                    <a
+                                        href="https://www.contraloria.gob.gt/imagenes/i_docs/i_leg_ley/LEY%20DE%20LOS%20CONSEJOS%20DE%20DESARROLLO%20URBANO%20Y%20RURAL.pdf"
+                                        class="footer__link"
+                                        target="_blank"
+                                        >Ley de los consejos de desarrollo
+                                        urbano y rural</a
+                                    >
+                                </li>
+
+                                <li>
+                                    <a
+                                        href="https://anam.org.gt/wp-content/uploads/2022/01/Guia-COCODES-Tomo-2-1.pdf"
+                                        class="footer__link"
+                                        target="_blank"
+                                        >Marco jurídico del Sistema de Consejos
+                                        de Desarrollo</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer__group">
+                    <div class="footer__social">
+                        <a
+                            href="https://www.facebook.com/cocode.cuilco/?_rdr"
+                            target="_blank"
+                            class="footer__social-link"
+                        >
+                            <i class="ri-facebook-line"></i>
+                        </a>
+                    </div>
+
+                    <span class="footer__copy">
+                        &#169;Ery Falú. Derechos reservados.
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
