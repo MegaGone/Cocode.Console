@@ -63,7 +63,7 @@ export class MinuteService {
 
     public download(filename: string): Observable<Blob> {
         return this._http.get(
-            `${base_url.replace('/api', '')}/uploads/${filename}`,
+            `https://api.cocodecuilco.com/uploads/${filename}`,
             {
                 responseType: 'blob',
             }
