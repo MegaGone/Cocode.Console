@@ -13,12 +13,16 @@ import { MatSort } from '@angular/material/sort';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/core/user/user.service';
 import { IPayment, IService } from 'app/interfaces';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { PaymentService } from '../payment.service';
 import { SnackBarService, transformDate } from 'app/utils';
 import { PaymentDialog } from '../dialog/dialog.component';
 import { User } from 'app/core/user/user.types';
 import { ServicesService } from 'app/modules/admin/services/services.service';
+import {
+    FuseConfirmationConfig,
+    FuseConfirmationService,
+} from '@fuse/services/confirmation';
 
 @Component({
     selector: 'payment-list',
@@ -57,7 +61,8 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly _payment: PaymentService,
         private readonly _snackbar: SnackBarService,
         private readonly _services: ServicesService,
-        private readonly _changeDetectorRef: ChangeDetectorRef
+        private readonly _changeDetectorRef: ChangeDetectorRef,
+        private readonly _fuseConfirmationService: FuseConfirmationService
     ) {
         this.services = [];
     }
@@ -129,7 +134,27 @@ export class ListComponent implements OnInit, OnDestroy {
         this.services$ = this._services.services$;
     }
 
-    public approve(payment: IPayment) {
+    public async approve(payment: IPayment) {
+        const onConfirmed: string = await this._onConfirm({
+            icon: {
+                color: 'primary',
+                name: 'heroicons_outline:shield-check',
+            },
+            title: 'Aprobar pago',
+            message: '¿Está seguro en aprobar el pago?',
+            actions: {
+                confirm: {
+                    label: 'Aprobar',
+                    color: 'primary',
+                },
+                cancel: {
+                    label: 'Cancelar',
+                },
+            },
+        });
+
+        if (onConfirmed != 'confirmed') return;
+
         this._payment
             .approvePayment({ paymentId: payment.id, userId: payment.userId })
             .pipe(takeUntil(this._unsubscribeAll))
@@ -145,7 +170,27 @@ export class ListComponent implements OnInit, OnDestroy {
             });
     }
 
-    public deny(payment: IPayment) {
+    public async deny(payment: IPayment) {
+        const onConfirmed: string = await this._onConfirm({
+            icon: {
+                color: 'error',
+                name: 'heroicons_outline:x',
+            },
+            title: 'Denegar pago',
+            message: '¿Está seguro en denegar el pago?',
+            actions: {
+                confirm: {
+                    label: 'Denegar',
+                    color: 'primary',
+                },
+                cancel: {
+                    label: 'Cancelar',
+                },
+            },
+        });
+
+        if (onConfirmed != 'confirmed') return;
+
         this._payment
             .denyPayment({ paymentId: payment.id, userId: payment.userId })
             .pipe(takeUntil(this._unsubscribeAll))
@@ -161,7 +206,27 @@ export class ListComponent implements OnInit, OnDestroy {
             });
     }
 
-    public cancel(payment: IPayment) {
+    public async cancel(payment: IPayment) {
+        const onConfirmed: string = await this._onConfirm({
+            icon: {
+                color: 'warning',
+                name: 'heroicons_outline:reply',
+            },
+            title: 'Anular pago',
+            message: '¿Está seguro en anular el pago?',
+            actions: {
+                confirm: {
+                    label: 'Anular',
+                    color: 'primary',
+                },
+                cancel: {
+                    label: 'Cancelar',
+                },
+            },
+        });
+
+        if (onConfirmed != 'confirmed') return;
+
         this._payment
             .cancelPayment({ paymentId: payment.id, userId: payment.userId })
             .pipe(takeUntil(this._unsubscribeAll))
@@ -221,5 +286,18 @@ export class ListComponent implements OnInit, OnDestroy {
                 a.click();
                 window.URL.revokeObjectURL(url);
             });
+    }
+
+    private async _onConfirm(options: FuseConfirmationConfig): Promise<string> {
+        try {
+            const dialogRef = this._fuseConfirmationService.open(options);
+            const res: string = await firstValueFrom(
+                dialogRef.afterClosed().pipe(takeUntil(this._unsubscribeAll))
+            );
+
+            return res;
+        } catch (error) {
+            return 'cancelled';
+        }
     }
 }
