@@ -5,9 +5,15 @@
         class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card"
     >
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-            <!-- Logo -->
             <div class="w-12">
-                <img />
+                <div class="-ml-4 sm:mt-8">
+                    <a mat-button [color]="'primary'" [routerLink]="['/home']">
+                        <mat-icon
+                            [svgIcon]="'heroicons_outline:arrow-narrow-left'"
+                        ></mat-icon>
+                        <span class="ml-2">Volver</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Title -->
@@ -123,9 +129,7 @@
     </div>
     <div
         class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l"
-        style="
-            background-image: url('https://megagone.github.io/Cocode/assets/images/background.jpg');
-        "
+        style="background-image: url('/assets/background.jpg')"
     >
         <!-- Background - @formatter:off -->
         <!-- Rings -->
