@@ -168,6 +168,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     public openDialog() {
         const dialogRef = this._dialog.open(PaymentDialog, {
             width: '500px',
+            maxHeight: '650px',
             data: { user: this.optionSelected },
         });
 

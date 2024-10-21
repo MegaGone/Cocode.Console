@@ -198,6 +198,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public openDialog(payment: IPayment) {
         this.dialog.open(PaymentDialog, {
             width: '500px',
+            maxHeight: '650px',
             data: { payment },
         });
     }

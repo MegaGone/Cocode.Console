@@ -82,6 +82,7 @@ export class ListComponent implements OnInit, OnDestroy, AfterViewInit {
     openDialog(user: User) {
         const dialogRef = this.dialog.open(UserDialogComponent, {
             width: '500px',
+            maxHeight: '650px',
             data: { user },
         });
 
