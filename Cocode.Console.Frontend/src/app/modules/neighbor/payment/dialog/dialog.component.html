@@ -89,7 +89,7 @@
                         class="icon-size-14 text-hint"
                         [svgIcon]="'iconsmind:file'"
                     ></mat-icon>
-                    <div class="bg-red-600 doc-file">PDF</div>
+                    <div class="bg-red-600 doc-file">PNG</div>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 type="file"
                 name="image"
                 (change)="onFileSelected($event)"
-                accept=".jpeg,.jpg,.png,.pdf"
+                accept=".jpeg,.jpg,.png"
             />
             <mat-error *ngIf="invalidExtention"
                 >La imágen debe ser en extensión .jpg, .png o .jpeg</mat-error
@@ -208,7 +208,7 @@
                         class="icon-size-14 text-hint"
                         [svgIcon]="'iconsmind:file'"
                     ></mat-icon>
-                    <div class="bg-red-600 doc-file">PDF</div>
+                    <div class="bg-red-600 doc-file">PNG</div>
                 </div>
             </div>
         </div>
