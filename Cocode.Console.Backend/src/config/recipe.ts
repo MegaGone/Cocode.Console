@@ -7,6 +7,7 @@ const SECOND_ADDRESS =
   process.env.SECOND_ADDRESS || "Huehuetenango: 7a. Calle 13-70 Zona 4";
 const NIT = process.env.NIT || "11223344-5";
 const PHONE_NUMBER = process.env.PHONE_NUMBER || "23283333";
+const PHONE_NUMBER_TWO = process.env.PHONE_NUMBER_TWO || "";
 const QR_IMAGE_NAME = process.env.QR_IMAGE_NAME || "qr.png";
 
 export {
@@ -16,4 +17,5 @@ export {
   FIRST_ADDRESS,
   QR_IMAGE_NAME,
   SECOND_ADDRESS,
+  PHONE_NUMBER_TWO,
 };

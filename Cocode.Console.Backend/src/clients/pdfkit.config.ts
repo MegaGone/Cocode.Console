@@ -3,12 +3,11 @@ import { resolve } from "path";
 import PDFDocument from "pdfkit-table";
 import { createWriteStream } from "fs";
 import {
-  NIT,
   COMPANY_NAME,
   FIRST_ADDRESS,
-  SECOND_ADDRESS,
   MULTER_DIRECTORY,
   PHONE_NUMBER,
+  PHONE_NUMBER_TWO,
   QR_IMAGE_NAME,
 } from "../config";
 
@@ -48,10 +47,10 @@ export class PDFGenerator {
         .moveDown(0.5)
         .fontSize(12)
         .text(FIRST_ADDRESS, { align: "center" })
-        .text(SECOND_ADDRESS, { align: "center" })
         .moveDown(0.5)
-        .text(`Nit: ${NIT}`, { align: "center" })
-        .text(`Tel: (502) ${PHONE_NUMBER}`, { align: "center" });
+        .text(`Tel: (+502) ${PHONE_NUMBER} & (+502) ${PHONE_NUMBER_TWO}`, {
+          align: "center",
+        });
 
       // Detalles de recibo
       doc.moveDown(1).fontSize(12).text(`Fecha: ${month}`, { align: "center" });
