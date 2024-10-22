@@ -36,6 +36,7 @@ export class PaymentDialog implements OnInit {
     public services$: Observable<Array<IService>>;
 
     public selectedService: IService;
+    public isPdf: boolean;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -50,6 +51,7 @@ export class PaymentDialog implements OnInit {
         this.months = [];
         this.amounts = [];
         this.services = [];
+        this.isPdf = false;
         this._unsubscribeAll = new Subject<any>();
     }
 
@@ -102,6 +104,10 @@ export class PaymentDialog implements OnInit {
         });
 
         if (payment?.photo) {
+            if (payment?.photo.includes('pdf')) {
+                this.isPdf = true;
+            }
+
             this.base64Image = payment?.photo;
         }
     }
@@ -150,12 +156,7 @@ export class PaymentDialog implements OnInit {
         if (event.target.files && event.target.files[0]) {
             // Size Filter Bytes
             const max_size = 2000000;
-            const allowed_types = [
-                'image/png',
-                'image/jpeg',
-                'image/jpg',
-                'application/pdf',
-            ];
+            const allowed_types = ['image/png', 'image/jpeg', 'image/jpg'];
 
             if (event.target.files[0].size > max_size) {
                 this.invalidSize = true;

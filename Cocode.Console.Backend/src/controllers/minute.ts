@@ -64,12 +64,11 @@ export const enableMinute = async (_req: Request, _res: Response) => {
 
 export const findMinutesPaginated = async (_req: Request, _res: Response) => {
   try {
-    const { role } = _req;
     const { pageSize = 10, page = 1 } = _req.body;
 
     const minuteService: MinuteService = _req.app.locals.minuteService;
     const { data, totalItems, totalPages, currentPage } =
-      await minuteService.findPaginated(page, pageSize, +role);
+      await minuteService.findPaginated(page, pageSize);
 
     return _res.status(200).json({
       minutes: data,

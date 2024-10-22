@@ -3,12 +3,7 @@
 
     <form name="userForm" [formGroup]="userForm" (ngSubmit)="createUser()">
         <mat-form-field>
-            <input
-                matInput
-                placeholder="Nombre"
-                formControlName="firstName"
-                (keydown)="onKeyDown($event)"
-            />
+            <input matInput placeholder="Nombre" formControlName="firstName" />
             <mat-error
                 *ngIf="
                     userForm.get('firstName').invalid &&
@@ -20,12 +15,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input
-                matInput
-                placeholder="Apellido"
-                formControlName="lastName"
-                (keydown)="onKeyDown($event)"
-            />
+            <input matInput placeholder="Apellido" formControlName="lastName" />
             <mat-error
                 *ngIf="
                     userForm.get('lastName').invalid &&

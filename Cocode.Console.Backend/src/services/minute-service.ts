@@ -73,14 +73,14 @@ export class MinuteService {
     }
   }
 
-  public async findPaginated(page: number, size: number, role: number = 3) {
+  public async findPaginated(page: number, size: number) {
     try {
       const skip = (page - 1) * size;
       const take = size;
 
       const { data, count } = await this._minuteRepository.findWithPagination(
         {
-          DeletedAt: role === 3 ? IsNull() : undefined,
+          DeletedAt: IsNull(),
         },
         {
           CreatedAt: "DESC",

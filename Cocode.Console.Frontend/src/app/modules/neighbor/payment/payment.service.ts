@@ -157,7 +157,7 @@ export class PaymentService {
 
     public download(filename: string): Observable<Blob> {
         return this._http.get(
-            `${base_url.replace('/api', '')}/uploads/${filename}`,
+            `${base_url.replace(/\/api(\/|$)/, '')}/uploads/${filename}`,
             {
                 responseType: 'blob',
             }

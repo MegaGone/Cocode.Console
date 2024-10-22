@@ -29,7 +29,10 @@
                         >
                             <img
                                 class="donation-photo-list"
-                                *ngIf="payment?.photo"
+                                *ngIf="
+                                    payment?.photo &&
+                                    !payment?.photo?.includes('pdf')
+                                "
                                 [src]="payment?.photo"
                             />
 

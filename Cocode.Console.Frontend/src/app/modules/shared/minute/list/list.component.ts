@@ -66,11 +66,11 @@ export class ListComponent implements OnInit {
                 icon: {
                     name: 'heroicons_outline:eye-off',
                 },
-                title: 'Deshabilitar acta',
-                message: '¿Está seguro en deshabilitar el acta?',
+                title: 'Eliminar acta',
+                message: '¿Está seguro en eliminar el acta?',
                 actions: {
                     confirm: {
-                        label: 'Deshabilitar',
+                        label: 'Eliminar',
                     },
                     cancel: {
                         label: 'Cancelar',
@@ -87,8 +87,8 @@ export class ListComponent implements OnInit {
                         .subscribe((res) => {
                             const message: string =
                                 res === 200
-                                    ? 'Se ha deshabilitado el acta exitósamente'
-                                    : 'Ha ocurrido un error al deshabilitar el acta.';
+                                    ? 'Se ha eliminado el acta exitósamente'
+                                    : 'Ha ocurrido un error al eliminar el acta.';
 
                             this._onGetMinutes();
                             this._snackbar.open(message);
