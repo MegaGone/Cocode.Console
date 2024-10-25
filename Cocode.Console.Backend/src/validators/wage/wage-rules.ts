@@ -3,6 +3,7 @@ import {
   genericStringRule,
   genericIntegerRule,
   genericQueryParamIdRule,
+  genericQueryRule,
 } from "../../helpers";
 import { PARAM_LOCATION } from "../../typings";
 
@@ -70,6 +71,14 @@ export const findWagesPaginatedValidationRules = (
   const newRules = additionalRules || [];
 
   return [
+    genericQueryRule(
+      "input",
+      {
+        location: PARAM_LOCATION.QUERY_PARAM,
+        warnings: "This field doesn't exist, is not a string or is empty.",
+      },
+      false
+    ),
     genericIntegerRule(
       ["page", "pageSize"],
       {

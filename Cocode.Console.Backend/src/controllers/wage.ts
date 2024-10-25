@@ -64,11 +64,13 @@ export const deleteWage = async (_req: Request, _res: Response) => {
 
 export const findWagesPaginated = async (_req: Request, _res: Response) => {
   try {
+    const { input } = _req.query;
     const { pageSize = 10, page = 1 } = _req.body;
 
+    const searchInput = typeof input === "string" && input ? input : "";
     const wageService: WageService = await _req.app.locals.wageService;
     const { data, totalItems, totalPages, currentPage } =
-      await wageService.findPaginated(page, pageSize);
+      await wageService.search(page, pageSize, searchInput);
 
     return _res.status(200).json({
       wages: data,

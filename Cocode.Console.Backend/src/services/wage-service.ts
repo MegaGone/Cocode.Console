@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource, ILike } from "typeorm";
 import { BaseRepository, WageData } from "../database";
 
 export class WageService {
@@ -90,6 +90,33 @@ export class WageService {
       );
 
       return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async search(page: number, size: number, input: string) {
+    try {
+      const skip = (page - 1) * size;
+      const take = size;
+
+      const { data, count } = await this._wageRepository.findWithPagination(
+        {
+          User: ILike(`%${input}%`),
+        },
+        {
+          CreatedAt: "DESC",
+        },
+        take,
+        skip
+      );
+
+      return {
+        data: data,
+        totalItems: count,
+        currentPage: page,
+        totalPages: Math.ceil(count / size),
+      };
     } catch (error) {
       throw error;
     }
