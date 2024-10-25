@@ -294,3 +294,22 @@ export const restorePassword = async (_req: Request, _res: Response) => {
     });
   }
 };
+
+export const searchAsync = async (_req: Request, _res: Response) => {
+  try {
+    const { input } = _req.query;
+
+    const searchInput = typeof input === "string" ? input : "";
+    const userService: UserService = _req.app.locals.userService;
+    const { data } = await userService.search(searchInput);
+
+    return _res.status(200).json({
+      data,
+      statusCode: 200,
+    });
+  } catch (error) {
+    return _res.status(500).json({
+      statusCode: 500,
+    });
+  }
+};

@@ -7,6 +7,7 @@ import {
   getUser,
   getUsers,
   restorePassword,
+  searchAsync,
   setInsolventNeighbors,
   updateNeighborStatus,
   updateUser,
@@ -19,6 +20,7 @@ import {
   getUsersValidationRules,
   getUserValidationRules,
   restorePasswordValidationRules,
+  searchAsyncValidationRules,
   updateStatusValidationRules,
   updateUserValidationRules,
   validateUserValidationRules,
@@ -50,6 +52,15 @@ router.get(
   validateRole(1),
   validateFields,
   getNeighbors
+);
+
+router.get(
+  "/search",
+  searchAsyncValidationRules(),
+  validateJWT,
+  validateRole(1),
+  validateFields,
+  searchAsync
 );
 
 /**

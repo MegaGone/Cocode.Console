@@ -1,4 +1,4 @@
-import { DataSource, FindOptionsWhere } from "typeorm";
+import { DataSource, FindOptionsWhere, ILike } from "typeorm";
 
 import { UserData, BaseRepository } from "../database";
 
@@ -138,6 +138,27 @@ export class UserService {
       return user ? user : null;
     } catch (error) {
       return null;
+    }
+  }
+
+  public async search(
+    input: string
+  ): Promise<{ data: Array<Partial<UserData>> }> {
+    try {
+      const users = await this.userRepository.findAll(
+        {
+          Role: 3,
+          DisplayName: ILike(`%${input}%`),
+        },
+        {
+          createdAt: "ASC",
+        },
+        ["id", "Dpi", "Email", "DisplayName"]
+      );
+
+      return { data: users };
+    } catch (error) {
+      return { data: [] };
     }
   }
 }

@@ -3,6 +3,7 @@ import {
   genericIntegerRule,
   genericQueryParamIdRule,
   genericBooleanRule,
+  genericQueryRule,
 } from "../../helpers";
 import { PARAM_LOCATION } from "../../typings";
 
@@ -128,6 +129,22 @@ export const restorePasswordValidationRules = (additionalRules: any = null) => {
       requiredType: "string",
       warnings: "This field doesn't exist, is not a string or is empty.",
     }),
+    ...newRules,
+  ];
+};
+
+export const searchAsyncValidationRules = (additionalRules: any = null) => {
+  const newRules = additionalRules || [];
+
+  return [
+    genericQueryRule(
+      "input",
+      {
+        location: PARAM_LOCATION.QUERY_PARAM,
+        warnings: "This field doesn't exist, is not a string or is empty.",
+      },
+      true
+    ),
     ...newRules,
   ];
 };
