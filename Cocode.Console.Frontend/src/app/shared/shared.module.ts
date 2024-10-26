@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SelectFilterComponent } from './select-filter/select-filter.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatSnackBarModule
     ],
     declarations: [
-      SpinnerComponent
+      SpinnerComponent,
+      SelectFilterComponent
     ]
 })
 export class SharedModule

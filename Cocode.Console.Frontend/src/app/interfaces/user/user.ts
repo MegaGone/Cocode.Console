@@ -53,3 +53,8 @@ export interface UsersPagination {
     startIndex?: number;
     endIndex: number;
 }
+
+export interface findUsersAsync {
+    statusCode: number;
+    data: Array<Partial<User>>;
+}

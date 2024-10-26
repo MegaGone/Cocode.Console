@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { INewUser, IUser, Users, User, INewUserResponse } from 'app/interfaces';
+import {
+    INewUser,
+    IUser,
+    Users,
+    User,
+    INewUserResponse,
+    findUsersAsync,
+} from 'app/interfaces';
 import { environment } from 'environments/environment';
 import {
     Observable,
@@ -58,6 +65,19 @@ export class UserService {
                     return null;
                 }),
                 catchError((err) => of(null))
+            );
+    }
+
+    getUsersAsync(input: string): Observable<Array<Partial<User>>> {
+        return this._http
+            .get<findUsersAsync>(`${this.path}/search`, {
+                params: { input },
+            })
+            .pipe(
+                map((res: findUsersAsync) => {
+                    return !res || !res?.data ? [] : res?.data;
+                }),
+                catchError((err) => of([]))
             );
     }
 
