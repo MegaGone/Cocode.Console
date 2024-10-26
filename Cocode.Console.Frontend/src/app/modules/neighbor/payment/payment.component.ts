@@ -5,7 +5,7 @@ import { ServicesService } from 'app/modules/admin/services/services.service';
 import { UserService as SessionService } from 'app/core/user/user.service';
 import { UserService } from 'app/modules/admin/users/user.service';
 import { SnackBarService, transformDate } from 'app/utils';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, switchMap, takeUntil } from 'rxjs';
 import { PaymentService } from './payment.service';
 import { User } from 'app/core/user/user.types';
 import { MatSelectChange } from '@angular/material/select';
@@ -18,8 +18,9 @@ import * as XLSX from 'xlsx';
     templateUrl: './payment.component.html',
 })
 export class PaymentComponent implements OnInit, OnDestroy {
-    public neighbors$: Observable<any[]>;
     public neighbors: any[];
+    private _search: Subject<string>;
+    public isLoadingNeighbors: boolean;
 
     public searchInputControl: FormControl;
     public optionSelected: any;
@@ -41,6 +42,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
     ) {
         this.services = [];
         this.payments = [];
+        this._search = new Subject();
+        this.isLoadingNeighbors = false;
         this._unsubscribeAll = new Subject();
         this.searchInputControl = new FormControl();
     }
@@ -64,22 +67,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
                 if (user?.role !== 1) return;
 
-                this.onGetNeighbor();
+                this._onFilterNeighbors();
             });
-    }
-
-    public async onGetNeighbor() {
-        if (this.user.role !== 1) return;
-        this._user
-            .getNeighbors()
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
-                this.neighbors = data;
-                this.searchInputControl.setValue(data[0]?.id);
-                this.optionSelected = data[0];
-            });
-
-        this.neighbors$ = this._user.neighbors$;
     }
 
     public onExportData() {
@@ -178,6 +167,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
             .subscribe((res) => this._payments.listenDialog());
     }
 
+    public onFilterNeighbors(value: string): void {
+        if (!value) return;
+
+        this.isLoadingNeighbors = true;
+        this._search.next(value);
+    }
+
     private _onChangeSelection() {
         this._payments.payments$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -227,5 +223,27 @@ export class PaymentComponent implements OnInit, OnDestroy {
         const timestamp = Date.now();
         const uniqueHex = timestamp.toString(16);
         return uniqueHex;
+    }
+
+    private _onFilterNeighbors(): void {
+        if (this.user.role !== 1) return;
+
+        this._search
+            .pipe(
+                debounceTime(500),
+                switchMap((input) => this._user.getUsersAsync(input)),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(
+                (data) => {
+                    this.neighbors = data;
+                },
+                (err) => {
+                    this.neighbors = [];
+                },
+                () => {
+                    this.isLoadingNeighbors = false;
+                }
+            );
     }
 }

@@ -21,14 +21,28 @@
                     [svgIcon]="'heroicons_solid:search'"
                 ></mat-icon>
                 <mat-select
-                    #residenceSelect
                     matInput
+                    #residenceSelect
                     [formControl]="searchInputControl"
                     (selectionChange)="onOptionSelection($event)"
+                    (openedChange)="neighborsFilterControl.onClearFilter()"
                 >
+                    <select-filter
+                        #neighborsFilterControl
+                        placeholderLabel="Buscar..."
+                        (searchValueOutput)="onFilterNeighbors($event)"
+                    ></select-filter>
+
+                    <mat-option
+                        disabled
+                        *ngIf="!isLoadingNeighbors && !neighbors?.length"
+                    >
+                        No existen resultados
+                    </mat-option>
+
                     <mat-option
                         [value]="neighbor.id"
-                        *ngFor="let neighbor of neighbors$ | async"
+                        *ngFor="let neighbor of neighbors"
                         >{{ neighbor.DisplayName }}</mat-option
                     >
                 </mat-select>

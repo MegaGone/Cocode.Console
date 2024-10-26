@@ -71,6 +71,7 @@ export class UserService {
     getUsersAsync(input: string): Observable<Array<Partial<User>>> {
         return this._http
             .get<findUsersAsync>(`${this.path}/search`, {
+                ...this.getHeaders,
                 params: { input },
             })
             .pipe(
