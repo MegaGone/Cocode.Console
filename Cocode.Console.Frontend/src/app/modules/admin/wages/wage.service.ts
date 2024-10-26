@@ -17,10 +17,12 @@ const base_url = environment.base_url;
     providedIn: 'root',
 })
 export class WageService {
+    private _onFilterWage: Subject<string>;
     private _onlistenSubject: Subject<void>;
     private _wages: BehaviorSubject<Array<IWage> | null>;
 
     constructor(private readonly _http: HttpClient) {
+        this._onFilterWage = new Subject();
         this._onlistenSubject = new Subject();
         this._wages = new BehaviorSubject(null);
     }
@@ -35,6 +37,14 @@ export class WageService {
 
     public get dialogStatus() {
         return this._onlistenSubject.asObservable();
+    }
+
+    public onFilterWage(value: string) {
+        return this._onFilterWage.next(value);
+    }
+
+    public get wage$() {
+        return this._onFilterWage.asObservable();
     }
 
     public create(body): Observable<number> {
@@ -76,9 +86,16 @@ export class WageService {
     public findWages(request: {
         page: number;
         pageSize: number;
+        input: string;
     }): Observable<IGetWages | null> {
+        const params = {
+            ...this._getHeaders,
+        };
+
+        if (request?.input) params['params'] = { input: request?.input };
+
         return this._http
-            .post(`${base_url}/wage/findPaginated`, request, this._getHeaders)
+            .post(`${base_url}/wage/findPaginated`, request, params)
             .pipe(
                 map((res: IGetWagesResponse) => {
                     if (res.statusCode && res.statusCode == 200) {

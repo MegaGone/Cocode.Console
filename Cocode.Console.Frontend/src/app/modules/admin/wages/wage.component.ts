@@ -68,6 +68,11 @@ export class WageComponent implements OnInit, OnDestroy {
         XLSX.writeFile(wb, filename);
     }
 
+    public onInputChange(event: Event) {
+        const input = (event.target as HTMLInputElement).value;
+        this._service.onFilterWage(input);
+    }
+
     private _convertDate(date: string): string {
         return transformDate(date);
     }

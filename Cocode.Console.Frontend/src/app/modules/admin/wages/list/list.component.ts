@@ -10,7 +10,7 @@ import { WageService } from '../wage.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { IWage } from 'app/interfaces';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, switchMap, takeUntil } from 'rxjs';
 import { SnackBarService, transformDate } from 'app/utils';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -49,17 +49,22 @@ export class ListComponent implements OnInit {
     ngOnInit(): void {
         this._onGetWages();
         this._onListenDialog();
+        this._onListenFilterByWage();
     }
 
     public convertDate(date: string): string {
         return transformDate(date);
     }
 
-    private _onGetWages(page: number = 1, pageSize: number = 10) {
+    private _onGetWages(
+        page: number = 1,
+        pageSize: number = 10,
+        input: string = ''
+    ) {
         try {
             this.loading = true;
             this._wage
-                .findWages({ page, pageSize })
+                .findWages({ page, pageSize, input })
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe((res) => {
                     this.loading = false;
@@ -112,5 +117,21 @@ export class ListComponent implements OnInit {
         this._wage.dialogStatus
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((res) => this._onGetWages(this.page, this.pageSize));
+    }
+
+    private _onListenFilterByWage() {
+        this._wage.wage$
+            .pipe(
+                debounceTime(500),
+                switchMap((input) =>
+                    this._wage.findWages({ page: 1, pageSize: 10, input })
+                ),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(
+                (data) => {},
+                (err) => {},
+                () => {}
+            );
     }
 }
